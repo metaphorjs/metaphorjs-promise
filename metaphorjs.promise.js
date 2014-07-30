@@ -340,7 +340,7 @@
                 cb;
 
             while (cb = cbs.shift()) {
-                cb[0].call(cb[1] || null, self._value);
+                cb[0].call(cb[1] || null, self._reason);
             }
         },
 
@@ -389,6 +389,10 @@
 
         all: function(promises) {
 
+            if (!promises.length) {
+                return Promise.resolve(null);
+            }
+
             var p       = new Promise,
                 len     = promises.length,
                 values  = [],
@@ -421,7 +425,51 @@
             return p;
         },
 
+        allResolved: function(promises) {
+
+            if (!promises.length) {
+                return Promise.resolve(null);
+            }
+
+            var p       = new Promise,
+                len     = promises.length,
+                values  = [],
+                cnt     = len,
+                i,
+                item,
+                settle  = function(value) {
+                    values.push(value);
+                    proceed();
+                },
+                proceed = function() {
+                    cnt--;
+                    if (cnt == 0) {
+                        p.resolve(values);
+                    }
+                };
+
+            for (i = 0; i < len; i++) {
+                item = promises[i];
+
+                if (item instanceof Promise) {
+                    item.done(settle).fail(proceed);
+                }
+                else if (isThenable(item) || typeof item == "function") {
+                    (new Promise(item)).done(settle).fail(proceed);
+                }
+                else {
+                    settle(item);
+                }
+            }
+
+            return p;
+        },
+
         race: function(promises) {
+
+            if (!promises.length) {
+                return Promise.resolve(null);
+            }
 
             var p   = new Promise,
                 len = promises.length,
