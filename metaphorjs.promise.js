@@ -12,6 +12,10 @@
                         window.setTimeout :
                         global.setTimeout,
 
+        /**
+         * @param {*} any
+         * @returns {Function|bool}
+         */
         isThenable  = function(any) {
             var then;
             return any && (typeof any == "object" || typeof any == "function") &&
@@ -19,6 +23,11 @@
                 then : false;
         },
 
+        /**
+         * @param {Function} fn
+         * @param {Object} scope
+         * @returns {Function}
+         */
         bind        = function(fn, scope) {
             return function() {
                 return fn.apply(scope, arguments);
@@ -34,6 +43,11 @@
                         function(fn) {
                             setTimeout(fn, 0);
                         },
+
+        // synchronous queue of asynchronous functions:
+        // callbacks must be called in "platform stack"
+        // which means setTimeout/nextTick;
+        // also, they must be called in a strict order.
         nextInQueue = function() {
             qRunning    = true;
             var next    = queue.shift();
@@ -47,6 +61,13 @@
                 }
             }, 0);
         },
+
+        /**
+         * add to execution queue
+         * @param {Function} fn
+         * @param {Object} scope
+         * @param {[]} args
+         */
         next        = function(fn, scope, args) {
             args = args || [];
             queue.push([fn, scope, args]);
@@ -55,6 +76,11 @@
             }
         },
 
+        /**
+         * Extend trg object with properties from src
+         * @param {Object} trg
+         * @param {Object} src
+         */
         extend      = function(trg, src) {
             for (var i in src) {
                 if (src.hasOwnProperty(i)) {
@@ -63,6 +89,20 @@
             }
         },
 
+
+        /**
+         * returns function which receives value from previous promise
+         * and tries to resolve next promise with new value returned from given function(prev value)
+         * or reject on error.
+         * promise1.then(success, failure) -> promise2
+         * wrapper(success, promise2) -> fn
+         * fn(promise1 resolve value) -> new value
+         * promise2.resolve(new value)
+         *
+         * @param {Function} fn
+         * @param {Promise} promise
+         * @returns {Function}
+         */
         wrapper     = function(fn, promise) {
             return function(value) {
                 try {
@@ -75,7 +115,12 @@
         };
 
 
-
+    /**
+     * @param {Function} fn -- function(resolve, reject)
+     * @param {Object} fnScope
+     * @returns {Promise}
+     * @constructor
+     */
     var Promise = function(fn, fnScope) {
 
         if (fn instanceof Promise) {
@@ -109,7 +154,7 @@
                 }
             }
             else {
-                throw Error("Cannot construct Promise with given value");
+                throw "Cannot construct Promise with given value";
             }
         }
     };
@@ -210,6 +255,9 @@
             this._processValue(value, this._doResolve);
         },
 
+        /**
+         * @param {*} value
+         */
         resolve: function(value) {
 
             var self    = this;
@@ -247,6 +295,9 @@
             this._processValue(reason, this._doReject);
         },
 
+        /**
+         * @param {*} reason
+         */
         reject: function(reason) {
 
             var self    = this;
@@ -260,7 +311,11 @@
             self._processRejectReason(reason);
         },
 
-
+        /**
+         * @param {Function} resolve -- called when this promise is resolved; returns new resolve value
+         * @param {Function} reject -- called when this promise is rejects; returns new reject reason
+         * @returns {Promise} new promise
+         */
         then: function(resolve, reject) {
 
             var self            = this,
@@ -304,6 +359,10 @@
             return promise;
         },
 
+        /**
+         * @param {Function} reject -- same as then(null, reject)
+         * @returns {Promise} new promise
+         */
         "catch": function(reject) {
             return this.then(null, reject);
         },
@@ -319,6 +378,11 @@
             }
         },
 
+        /**
+         * @param {Function} fn -- function to call when promise is resolved
+         * @param {Object} fnScope -- function's "this" object
+         * @returns {Promise} same promise
+         */
         done: function(fn, fnScope) {
             var self    = this,
                 state   = self._state;
@@ -344,6 +408,11 @@
             }
         },
 
+        /**
+         * @param {Function} fn -- function to call when promise is rejected.
+         * @param {Object} fnScope -- function's "this" object
+         * @returns {Promise} same promise
+         */
         fail: function(fn, fnScope) {
 
             var self    = this,
@@ -359,17 +428,37 @@
             return self;
         },
 
+        /**
+         * @param {Function} fn -- function to call when promise resolved or rejected
+         * @param {Object} fnScope -- function's "this" object
+         * @return {Promise} same promise
+         */
+        always: function(fn, fnScope) {
+            this.done(fn, fnScope);
+            this.fail(fn, fnScope);
+            return this;
+        },
+
+        /**
+         * @returns {{then: function, done: function, fail: function, always: function}}
+         */
         promise: function() {
             var self = this;
             return {
                 then: bind(self.then, self),
                 done: bind(self.done, self),
-                fail: bind(self.fail, self)
+                fail: bind(self.fail, self),
+                always: bind(self.always, self)
             };
         }
     });
 
     extend(Promise, {
+
+        /**
+         * @param {*} value
+         * @returns {Promise}
+         */
         resolve: function(value) {
             if (isThenable(value) || typeof value == "function") {
                 return new Promise(value);
@@ -381,12 +470,20 @@
             }
         },
 
+        /**
+         * @param {*} reason
+         * @returns {Promise}
+         */
         reject: function(reason) {
             var p = new Promise;
             p.reject(reason);
             return p;
         },
 
+        /**
+         * @param {[]} promises -- array of promises or resolve values
+         * @returns {Promise}
+         */
         all: function(promises) {
 
             if (!promises.length) {
@@ -425,6 +522,20 @@
             return p;
         },
 
+        /**
+         * @param {Promise|*} promise1
+         * @param {Promise|*} promise2
+         * @param {Promise|*} promiseN
+         * @returns {Promise}
+         */
+        when: function() {
+            return Promise.all(arguments);
+        },
+
+        /**
+         * @param {[]} promises -- array of promises or resolve values
+         * @returns {Promise}
+         */
         allResolved: function(promises) {
 
             if (!promises.length) {
@@ -465,6 +576,10 @@
             return p;
         },
 
+        /**
+         * @param {[]} promises -- array of promises or resolve values
+         * @returns {Promise}
+         */
         race: function(promises) {
 
             if (!promises.length) {
@@ -503,7 +618,7 @@
             window.Promise = Promise;
         }
         if (window.MetaphorJs) {
-            window.MetaphorJs.d("MetaphorJs.lib.Promise", Promise);
+            window.MetaphorJs.r("MetaphorJs.lib.Promise", Promise);
         }
     }
     else {
