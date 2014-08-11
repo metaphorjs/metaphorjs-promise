@@ -28,11 +28,15 @@
          * @param {Object} scope
          * @returns {Function}
          */
-        bind        = function(fn, scope) {
-            return function() {
-                return fn.apply(scope, arguments);
-            }
-        },
+        bind        = Function.prototype.bind ?
+                      function(fn, fnScope){
+                          return fn.bind(fnScope);
+                      } :
+                      function(fn, fnScope) {
+                          return function() {
+                              fn.apply(fnScope, arguments);
+                          };
+                      },
 
         queue       = [],
         qRunning    = false,
