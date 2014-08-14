@@ -172,6 +172,8 @@
         _dones: null,
         _fails: null,
 
+        _wait: 0,
+
         _value: null,
         _reason: null,
 
@@ -238,11 +240,11 @@
         },
 
 
-        _doResolve: function(value) {
+        _callResolveHandlers: function() {
+
             var self    = this;
 
-            self._value = value;
-            self._state = FULFILLED;
+            self._done();
 
             var cbs  = self._fulfills,
                 cb;
@@ -251,8 +253,19 @@
                 next(cb[0], cb[1], [self._value]);
             }
 
-            self._done();
             self._cleanup();
+        },
+
+
+        _doResolve: function(value) {
+            var self    = this;
+
+            self._value = value;
+            self._state = FULFILLED;
+
+            if (self._wait == 0) {
+                self._callResolveHandlers();
+            }
         },
 
         _processResolveValue: function(value) {
@@ -267,14 +280,31 @@
             var self    = this;
 
             if (self._triggered) {
-                return;
+                return self;
             }
 
             self._triggered = true;
             self._processResolveValue(value);
+
+            return self;
         },
 
 
+        _callRejectHandlers: function() {
+
+            var self    = this;
+
+            self._fail();
+
+            var cbs  = self._rejects,
+                cb;
+
+            while (cb = cbs.shift()) {
+                next(cb[0], cb[1], [self._reason]);
+            }
+
+            self._cleanup();
+        },
 
         _doReject: function(reason) {
 
@@ -283,15 +313,9 @@
             self._state     = REJECTED;
             self._reason    = reason;
 
-            var cbs  = self._rejects,
-                cb;
-
-            while (cb = cbs.shift()) {
-                next(cb[0], cb[1], [reason]);
+            if (self._wait == 0) {
+                self._callRejectHandlers();
             }
-
-            self._fail();
-            self._cleanup();
         },
 
 
@@ -307,12 +331,14 @@
             var self    = this;
 
             if (self._triggered) {
-                return;
+                return self;
             }
 
             self._triggered = true;
 
             self._processRejectReason(reason);
+
+            return self;
         },
 
         /**
@@ -326,7 +352,7 @@
                 promise         = new Promise,
                 state           = self._state;
 
-            if (state == PENDING) {
+            if (state == PENDING || self._wait != 0) {
 
                 if (resolve && typeof resolve == "function") {
                     self._fulfills.push([wrapper(resolve, promise), null]);
@@ -391,7 +417,7 @@
             var self    = this,
                 state   = self._state;
 
-            if (state == PENDING) {
+            if (state == PENDING || self._wait != 0) {
                 self._dones.push([fn, fnScope]);
             }
             else {
@@ -422,7 +448,7 @@
             var self    = this,
                 state   = self._state;
 
-            if (state == PENDING) {
+            if (state == PENDING || self._wait != 0) {
                 self._fails.push([fn, fnScope]);
             }
             else {
@@ -454,6 +480,34 @@
                 fail: bind(self.fail, self),
                 always: bind(self.always, self)
             };
+        },
+
+        after: function(value) {
+
+            var self = this;
+
+            if (isThenable(value)) {
+
+                self._wait++;
+
+                var done = function() {
+                    self._wait--;
+                    if (self._wait == 0 && self._state != PENDING) {
+                        self._state == FULFILLED ?
+                            self._callResolveHandlers() :
+                            self._callRejectHandlers();
+                    }
+                };
+
+                if (typeof value.done == "function") {
+                    value.done(done);
+                }
+                else {
+                    value.then(done);
+                }
+            }
+
+            return self;
         }
     });
 
