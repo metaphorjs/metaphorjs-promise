@@ -34,7 +34,7 @@
                       } :
                       function(fn, fnScope) {
                           return function() {
-                              fn.apply(fnScope, arguments);
+                              return fn.apply(fnScope, arguments);
                           };
                       },
 
@@ -112,8 +112,8 @@
                 try {
                     promise.resolve(fn(value));
                 }
-                catch (e) {
-                    promise.reject(e);
+                catch (thrownError) {
+                    promise.reject(thrownError);
                 }
             };
         };
@@ -142,23 +142,20 @@
         self._dones      = [];
         self._fails      = [];
 
-        if (fn) {
+        if (typeof fn != "undefined") {
 
-            if (isThenable(fn)) {
+            if (isThenable(fn) || typeof fn != "function") {
                 self.resolve(fn);
             }
-            else if (typeof fn == "function") {
+            else {
                 try {
                     fn.call(fnScope,
                             bind(self.resolve, self),
                             bind(self.reject, self));
                 }
-                catch (e) {
-                    self.reject(e);
+                catch (thrownError) {
+                    self.reject(thrownError);
                 }
-            }
-            else {
-                throw "Cannot construct Promise with given value";
             }
         }
     };
@@ -229,9 +226,9 @@
                     return;
                 }
             }
-            catch (e) {
+            catch (thrownError) {
                 if (self._state == PENDING) {
-                    self._doReject(e);
+                    self._doReject(thrownError);
                 }
                 return;
             }
@@ -417,11 +414,11 @@
             var self    = this,
                 state   = self._state;
 
-            if (state == PENDING || self._wait != 0) {
-                self._dones.push([fn, fnScope]);
-            }
-            else {
+            if (state == FULFILLED && self._wait == 0) {
                 fn.call(fnScope || null, self._value);
+            }
+            else if (state == PENDING) {
+                self._dones.push([fn, fnScope]);
             }
 
             return self;
@@ -448,11 +445,11 @@
             var self    = this,
                 state   = self._state;
 
-            if (state == PENDING || self._wait != 0) {
-                self._fails.push([fn, fnScope]);
-            }
-            else {
+            if (state == REJECTED && self._wait == 0) {
                 fn.call(fnScope || null, self._reason);
+            }
+            else if (state == PENDING) {
+                self._fails.push([fn, fnScope]);
             }
 
             return self;
@@ -518,14 +515,13 @@
          * @returns {Promise}
          */
         resolve: function(value) {
-            if (isThenable(value) || typeof value == "function") {
+            return new Promise(value);
+            /*if (isThenable(value) || typeof value == "function") {
                 return new Promise(value);
             }
             else {
-                var p = new Promise;
-                p.resolve(value);
-                return p;
-            }
+                return (new Promise).resolve(value);
+            }*/
         },
 
         /**
@@ -550,12 +546,12 @@
 
             var p       = new Promise,
                 len     = promises.length,
-                values  = [],
+                values  = new Array(len),
                 cnt     = len,
                 i,
                 item,
-                done    = function(value) {
-                    values.push(value);
+                done    = function(value, inx) {
+                    values[inx] = value;
                     cnt--;
 
                     if (cnt == 0) {
@@ -564,17 +560,27 @@
                 };
 
             for (i = 0; i < len; i++) {
-                item = promises[i];
 
-                if (item instanceof Promise) {
-                    item.done(done).fail(p.reject, p);
-                }
-                else if (isThenable(item) || typeof item == "function") {
-                    (new Promise(item)).done(done).fail(p.reject, p);
-                }
-                else {
-                    done(item);
-                }
+                (function(inx){
+                    item = promises[i];
+
+                    if (item instanceof Promise) {
+                        item.done(function(value){
+                                done(value, inx);
+                            })
+                            .fail(p.reject, p);
+                    }
+                    else if (isThenable(item) || typeof item == "function") {
+                        (new Promise(item))
+                            .done(function(value){
+                                done(value, inx);
+                            })
+                            .fail(p.reject, p);
+                    }
+                    else {
+                        done(item, inx);
+                    }
+                })(i);
             }
 
             return p;
@@ -676,7 +682,13 @@
             window.Promise = Promise;
         }
         if (window.MetaphorJs) {
-            window.MetaphorJs.r("MetaphorJs.lib.Promise", Promise);
+            if (MetaphorJs.r) {
+                MetaphorJs.r("MetaphorJs.lib.Promise", Promise);
+            }
+            else {
+                MetaphorJs.lib = MetaphorJs.lib || {};
+                MetaphorJs.lib.Promise = Promise;
+            }
         }
     }
     else {
