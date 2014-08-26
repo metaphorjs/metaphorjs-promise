@@ -2,7 +2,7 @@
 
 
 var promisesAplusTests = require("promises-aplus-tests");
-var Promise = require("../metaphorjs.promise.js");
+var Promise = require("../dist/metaphorjs.promise.amd.js");
 
 
 var bind = function(fn, scope) {

@@ -1,0 +1,29 @@
+{
+    "standalone": {
+        "auto": true,
+        "wrap": true,
+        "target": "dist/metaphorjs.promise.js",
+        "files": [
+            "../metaphorjs/src/MetaphorJs.js",
+            "src/metaphorjs.promise.js"
+        ]
+    },
+
+    "module": {
+        "auto": true,
+        "wrap": true,
+        "target": "dist/metaphorjs.promise.amd.js",
+        "files": [
+            "../metaphorjs/src/amd/MetaphorJs.js",
+            "src/metaphorjs.promise.js"
+        ],
+        "append": [
+            "src/amd/append.js"
+        ]
+    },
+
+    "compile-standalone": {
+        "target": "dist/metaphorjs.promise.min.js",
+        "compile": "standalone"
+    }
+}

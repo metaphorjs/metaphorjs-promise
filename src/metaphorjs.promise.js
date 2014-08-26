@@ -1,4 +1,5 @@
-
+//#require ../../metaphorjs/src/func/isThenable.js
+//#require ../../metaphorjs/src/func/bind.js
 
 (function(){
 
@@ -7,36 +8,6 @@
     var PENDING     = 0,
         FULFILLED   = 1,
         REJECTED    = 2,
-
-        setTimeout  = typeof window != "undefined" ?
-                        window.setTimeout :
-                        global.setTimeout,
-
-        /**
-         * @param {*} any
-         * @returns {Function|bool}
-         */
-        isThenable  = function(any) {
-            var then;
-            return any && (typeof any == "object" || typeof any == "function") &&
-                typeof (then = any.then) == "function" ?
-                then : false;
-        },
-
-        /**
-         * @param {Function} fn
-         * @param {Object} scope
-         * @returns {Function}
-         */
-        bind        = Function.prototype.bind ?
-                      function(fn, fnScope){
-                          return fn.bind(fnScope);
-                      } :
-                      function(fn, fnScope) {
-                          return function() {
-                              return fn.apply(fnScope, arguments);
-                          };
-                      },
 
         queue       = [],
         qRunning    = false,
@@ -79,20 +50,6 @@
                 nextInQueue();
             }
         },
-
-        /**
-         * Extend trg object with properties from src
-         * @param {Object} trg
-         * @param {Object} src
-         */
-        extend      = function(trg, src) {
-            for (var i in src) {
-                if (src.hasOwnProperty(i)) {
-                    trg[i] = src[i];
-                }
-            }
-        },
-
 
         /**
          * returns function which receives value from previous promise
@@ -160,7 +117,7 @@
         }
     };
 
-    extend(Promise.prototype, {
+    Promise.prototype = {
 
         _state: PENDING,
 
@@ -506,195 +463,171 @@
 
             return self;
         }
-    });
+    };
 
-    extend(Promise, {
+    /**
+     * @param {*} value
+     * @returns {Promise}
+     */
+    Promise.resolve = function(value) {
+        return new Promise(value);
+    };
 
-        /**
-         * @param {*} value
-         * @returns {Promise}
-         */
-        resolve: function(value) {
-            return new Promise(value);
-            /*if (isThenable(value) || typeof value == "function") {
-                return new Promise(value);
-            }
-            else {
-                return (new Promise).resolve(value);
-            }*/
-        },
 
-        /**
-         * @param {*} reason
-         * @returns {Promise}
-         */
-        reject: function(reason) {
-            var p = new Promise;
-            p.reject(reason);
-            return p;
-        },
+    /**
+     * @param {*} reason
+     * @returns {Promise}
+     */
+    Promise.reject = function(reason) {
+        var p = new Promise;
+        p.reject(reason);
+        return p;
+    };
 
-        /**
-         * @param {[]} promises -- array of promises or resolve values
-         * @returns {Promise}
-         */
-        all: function(promises) {
 
-            if (!promises.length) {
-                return Promise.resolve(null);
-            }
+    /**
+     * @param {[]} promises -- array of promises or resolve values
+     * @returns {Promise}
+     */
+    Promise.all = function(promises) {
 
-            var p       = new Promise,
-                len     = promises.length,
-                values  = new Array(len),
-                cnt     = len,
-                i,
-                item,
-                done    = function(value, inx) {
-                    values[inx] = value;
-                    cnt--;
+        if (!promises.length) {
+            return Promise.resolve(null);
+        }
 
-                    if (cnt == 0) {
-                        p.resolve(values);
-                    }
-                };
+        var p       = new Promise,
+            len     = promises.length,
+            values  = new Array(len),
+            cnt     = len,
+            i,
+            item,
+            done    = function(value, inx) {
+                values[inx] = value;
+                cnt--;
 
-            for (i = 0; i < len; i++) {
+                if (cnt == 0) {
+                    p.resolve(values);
+                }
+            };
 
-                (function(inx){
-                    item = promises[i];
+        for (i = 0; i < len; i++) {
 
-                    if (item instanceof Promise) {
-                        item.done(function(value){
-                                done(value, inx);
-                            })
-                            .fail(p.reject, p);
-                    }
-                    else if (isThenable(item) || typeof item == "function") {
-                        (new Promise(item))
-                            .done(function(value){
-                                done(value, inx);
-                            })
-                            .fail(p.reject, p);
-                    }
-                    else {
-                        done(item, inx);
-                    }
-                })(i);
-            }
-
-            return p;
-        },
-
-        /**
-         * @param {Promise|*} promise1
-         * @param {Promise|*} promise2
-         * @param {Promise|*} promiseN
-         * @returns {Promise}
-         */
-        when: function() {
-            return Promise.all(arguments);
-        },
-
-        /**
-         * @param {[]} promises -- array of promises or resolve values
-         * @returns {Promise}
-         */
-        allResolved: function(promises) {
-
-            if (!promises.length) {
-                return Promise.resolve(null);
-            }
-
-            var p       = new Promise,
-                len     = promises.length,
-                values  = [],
-                cnt     = len,
-                i,
-                item,
-                settle  = function(value) {
-                    values.push(value);
-                    proceed();
-                },
-                proceed = function() {
-                    cnt--;
-                    if (cnt == 0) {
-                        p.resolve(values);
-                    }
-                };
-
-            for (i = 0; i < len; i++) {
+            (function(inx){
                 item = promises[i];
 
                 if (item instanceof Promise) {
-                    item.done(settle).fail(proceed);
+                    item.done(function(value){
+                        done(value, inx);
+                    })
+                        .fail(p.reject, p);
                 }
                 else if (isThenable(item) || typeof item == "function") {
-                    (new Promise(item)).done(settle).fail(proceed);
+                    (new Promise(item))
+                        .done(function(value){
+                            done(value, inx);
+                        })
+                        .fail(p.reject, p);
                 }
                 else {
-                    settle(item);
+                    done(item, inx);
                 }
-            }
-
-            return p;
-        },
-
-        /**
-         * @param {[]} promises -- array of promises or resolve values
-         * @returns {Promise}
-         */
-        race: function(promises) {
-
-            if (!promises.length) {
-                return Promise.resolve(null);
-            }
-
-            var p   = new Promise,
-                len = promises.length,
-                i,
-                item;
-
-            for (i = 0; i < len; i++) {
-                item = promises[i];
-
-                if (item instanceof Promise) {
-                    item.done(p.resolve, p).fail(p.reject, p);
-                }
-                else if (isThenable(item) || typeof item == "function") {
-                    (new Promise(item)).done(p.resolve, p).fail(p.reject, p);
-                }
-                else {
-                    p.resolve(item);
-                }
-
-                if (!p.isPending()) {
-                    break;
-                }
-            }
-
-            return p;
+            })(i);
         }
-    });
 
-    if (typeof global == "undefined") {
-        if (!window.Promise) {
-            window.Promise = Promise;
+        return p;
+    };
+
+    /**
+     * @param {Promise|*} promise1
+     * @param {Promise|*} promise2
+     * @param {Promise|*} promiseN
+     * @returns {Promise}
+     */
+    Promise.when = function() {
+        return Promise.all(arguments);
+    };
+
+    /**
+     * @param {[]} promises -- array of promises or resolve values
+     * @returns {Promise}
+     */
+    Promise.allResolved = function(promises) {
+
+        if (!promises.length) {
+            return Promise.resolve(null);
         }
-        if (window.MetaphorJs) {
-            if (MetaphorJs.r) {
-                MetaphorJs.r("MetaphorJs.lib.Promise", Promise);
+
+        var p       = new Promise,
+            len     = promises.length,
+            values  = [],
+            cnt     = len,
+            i,
+            item,
+            settle  = function(value) {
+                values.push(value);
+                proceed();
+            },
+            proceed = function() {
+                cnt--;
+                if (cnt == 0) {
+                    p.resolve(values);
+                }
+            };
+
+        for (i = 0; i < len; i++) {
+            item = promises[i];
+
+            if (item instanceof Promise) {
+                item.done(settle).fail(proceed);
+            }
+            else if (isThenable(item) || typeof item == "function") {
+                (new Promise(item)).done(settle).fail(proceed);
             }
             else {
-                MetaphorJs.lib = MetaphorJs.lib || {};
-                MetaphorJs.lib.Promise = Promise;
+                settle(item);
             }
         }
-    }
-    else {
-        if (typeof module != "undefined") {
-            module.exports = Promise;
+
+        return p;
+    };
+
+    /**
+     * @param {[]} promises -- array of promises or resolve values
+     * @returns {Promise}
+     */
+    Promise.race = function(promises) {
+
+        if (!promises.length) {
+            return Promise.resolve(null);
         }
-    }
+
+        var p   = new Promise,
+            len = promises.length,
+            i,
+            item;
+
+        for (i = 0; i < len; i++) {
+            item = promises[i];
+
+            if (item instanceof Promise) {
+                item.done(p.resolve, p).fail(p.reject, p);
+            }
+            else if (isThenable(item) || typeof item == "function") {
+                (new Promise(item)).done(p.resolve, p).fail(p.reject, p);
+            }
+            else {
+                p.resolve(item);
+            }
+
+            if (!p.isPending()) {
+                break;
+            }
+        }
+
+        return p;
+    };
+
+
+    MetaphorJs.lib.Promise = Promise;
 
 }());
