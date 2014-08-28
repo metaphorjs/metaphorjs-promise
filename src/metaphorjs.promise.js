@@ -1,9 +1,14 @@
-//#require ../../metaphorjs/src/func/isThenable.js
-//#require ../../metaphorjs/src/func/bind.js
 
-(function(){
+var MetaphorJs = require("../../metaphorjs/src/MetaphorJs.js"),
+    isThenable = require("../../metaphorjs/src/func/isThenable.js"),
+    bind = require("../../metaphorjs/src/func/bind.js"),
+    isUndefined = require("../../metaphorjs/src/func/isUndefined.js"),
+    isFunction = require("../../metaphorjs/src/func/isFunction.js"),
+    strUndef = require("../../metaphorjs/src/var/strUndef.js");
 
-    "use strict";
+
+
+var Promise = function(){
 
     var PENDING     = 0,
         FULFILLED   = 1,
@@ -13,7 +18,7 @@
         qRunning    = false,
 
 
-        nextTick    = typeof process != "undefined" ?
+        nextTick    = typeof process != strUndef ?
                         process.nextTick :
                         function(fn) {
                             setTimeout(fn, 0);
@@ -99,9 +104,9 @@
         self._dones      = [];
         self._fails      = [];
 
-        if (typeof fn != "undefined") {
+        if (!isUndefined(fn)) {
 
-            if (isThenable(fn) || typeof fn != "function") {
+            if (isThenable(fn) || !isFunction(fn)) {
                 self.resolve(fn);
             }
             else {
@@ -308,14 +313,14 @@
 
             if (state == PENDING || self._wait != 0) {
 
-                if (resolve && typeof resolve == "function") {
+                if (resolve && isFunction(resolve)) {
                     self._fulfills.push([wrapper(resolve, promise), null]);
                 }
                 else {
                     self._fulfills.push([promise.resolve, promise])
                 }
 
-                if (reject && typeof reject == "function") {
+                if (reject && isFunction(reject)) {
                     self._rejects.push([wrapper(reject, promise), null]);
                 }
                 else {
@@ -324,7 +329,7 @@
             }
             else if (state == FULFILLED) {
 
-                if (resolve && typeof resolve == "function") {
+                if (resolve && isFunction(resolve)) {
                     next(wrapper(resolve, promise), null, [self._value]);
                 }
                 else {
@@ -332,7 +337,7 @@
                 }
             }
             else if (state == REJECTED) {
-                if (reject && typeof reject == "function") {
+                if (reject && isFunction(reject)) {
                     next(wrapper(reject, promise), null, [self._reason]);
                 }
                 else {
@@ -453,7 +458,7 @@
                     }
                 };
 
-                if (typeof value.done == "function") {
+                if (isFunction(value.done)) {
                     value.done(done);
                 }
                 else {
@@ -521,7 +526,7 @@
                     })
                         .fail(p.reject, p);
                 }
-                else if (isThenable(item) || typeof item == "function") {
+                else if (isThenable(item) || isFunction(item)) {
                     (new Promise(item))
                         .done(function(value){
                             done(value, inx);
@@ -580,7 +585,7 @@
             if (item instanceof Promise) {
                 item.done(settle).fail(proceed);
             }
-            else if (isThenable(item) || typeof item == "function") {
+            else if (isThenable(item) || isFunction(item)) {
                 (new Promise(item)).done(settle).fail(proceed);
             }
             else {
@@ -612,7 +617,7 @@
             if (item instanceof Promise) {
                 item.done(p.resolve, p).fail(p.reject, p);
             }
-            else if (isThenable(item) || typeof item == "function") {
+            else if (isThenable(item) || isFunction(item)) {
                 (new Promise(item)).done(p.resolve, p).fail(p.reject, p);
             }
             else {
@@ -627,7 +632,9 @@
         return p;
     };
 
+    return Promise;
+}();
 
-    MetaphorJs.lib.Promise = Promise;
+MetaphorJs.lib.Promise = Promise;
 
-}());
+module.exports = Promise;

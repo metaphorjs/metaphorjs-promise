@@ -1,2 +1,2 @@
 
-module.exports = MetaphorJs.lib.Promise;
+module.exports = Promise;

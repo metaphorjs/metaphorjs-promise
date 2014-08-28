@@ -11,10 +11,9 @@
 
     "module": {
         "auto": true,
-        "wrap": true,
         "target": "dist/metaphorjs.promise.amd.js",
         "files": [
-            "../metaphorjs/src/amd/MetaphorJs.js",
+            "../metaphorjs/src/MetaphorJs.js",
             "src/metaphorjs.promise.js"
         ],
         "append": [

@@ -1,28 +1,39 @@
-(function(){
-"use strict"
+
 var MetaphorJs = {
     lib: {}
 };
+
+
+
+var isFunction = function(value) {
+    return typeof value === 'function';
+};
+var isObject = function(value) {
+    return value != null && typeof value === 'object';
+};
+
+
 /**
  * Returns 'then' function or false
  * @param {*} any
- * @returns {Function|false}
+ * @returns {Function|boolean}
  */
-var isThenable = MetaphorJs.isThenable = function(any) {
+var isThenable = function(any) {
     var then;
     if (!any) {
         return false;
     }
-    if (typeof any != "object" && typeof any != "function") {
+    if (!isObject(any) && !isFunction(any)) {
         return false;
     }
-    return typeof (then = any.then) == "function" ?
+    return isFunction((then = any.then)) ?
            then : false;
-};/**
+};
+/**
  * @param {Function} fn
  * @param {*} context
  */
-var bind = MetaphorJs.bind = Function.prototype.bind ?
+var bind = Function.prototype.bind ?
               function(fn, context){
                   return fn.bind(context);
               } :
@@ -33,9 +44,18 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
               };
 
 
-(function(){
+var strUndef = "undefined";
 
-    "use strict";
+
+var isUndefined = function(any) {
+    return typeof any == strUndef;
+};
+
+
+
+
+
+var Promise = function(){
 
     var PENDING     = 0,
         FULFILLED   = 1,
@@ -45,7 +65,7 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
         qRunning    = false,
 
 
-        nextTick    = typeof process != "undefined" ?
+        nextTick    = typeof process != strUndef ?
                         process.nextTick :
                         function(fn) {
                             setTimeout(fn, 0);
@@ -131,9 +151,9 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
         self._dones      = [];
         self._fails      = [];
 
-        if (typeof fn != "undefined") {
+        if (!isUndefined(fn)) {
 
-            if (isThenable(fn) || typeof fn != "function") {
+            if (isThenable(fn) || !isFunction(fn)) {
                 self.resolve(fn);
             }
             else {
@@ -340,14 +360,14 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
 
             if (state == PENDING || self._wait != 0) {
 
-                if (resolve && typeof resolve == "function") {
+                if (resolve && isFunction(resolve)) {
                     self._fulfills.push([wrapper(resolve, promise), null]);
                 }
                 else {
                     self._fulfills.push([promise.resolve, promise])
                 }
 
-                if (reject && typeof reject == "function") {
+                if (reject && isFunction(reject)) {
                     self._rejects.push([wrapper(reject, promise), null]);
                 }
                 else {
@@ -356,7 +376,7 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
             }
             else if (state == FULFILLED) {
 
-                if (resolve && typeof resolve == "function") {
+                if (resolve && isFunction(resolve)) {
                     next(wrapper(resolve, promise), null, [self._value]);
                 }
                 else {
@@ -364,7 +384,7 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
                 }
             }
             else if (state == REJECTED) {
-                if (reject && typeof reject == "function") {
+                if (reject && isFunction(reject)) {
                     next(wrapper(reject, promise), null, [self._reason]);
                 }
                 else {
@@ -485,7 +505,7 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
                     }
                 };
 
-                if (typeof value.done == "function") {
+                if (isFunction(value.done)) {
                     value.done(done);
                 }
                 else {
@@ -553,7 +573,7 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
                     })
                         .fail(p.reject, p);
                 }
-                else if (isThenable(item) || typeof item == "function") {
+                else if (isThenable(item) || isFunction(item)) {
                     (new Promise(item))
                         .done(function(value){
                             done(value, inx);
@@ -612,7 +632,7 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
             if (item instanceof Promise) {
                 item.done(settle).fail(proceed);
             }
-            else if (isThenable(item) || typeof item == "function") {
+            else if (isThenable(item) || isFunction(item)) {
                 (new Promise(item)).done(settle).fail(proceed);
             }
             else {
@@ -644,7 +664,7 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
             if (item instanceof Promise) {
                 item.done(p.resolve, p).fail(p.reject, p);
             }
-            else if (isThenable(item) || typeof item == "function") {
+            else if (isThenable(item) || isFunction(item)) {
                 (new Promise(item)).done(p.resolve, p).fail(p.reject, p);
             }
             else {
@@ -659,9 +679,10 @@ var bind = MetaphorJs.bind = Function.prototype.bind ?
         return p;
     };
 
+    return Promise;
+}();
 
-    MetaphorJs.lib.Promise = Promise;
+MetaphorJs.lib.Promise = Promise;
 
-}());
-module.exports = MetaphorJs.lib.Promise;
-}());
+
+module.exports = Promise;
