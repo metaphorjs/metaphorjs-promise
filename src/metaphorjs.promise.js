@@ -1,6 +1,5 @@
 
-var MetaphorJs = require("../../metaphorjs/src/MetaphorJs.js"),
-    isThenable = require("../../metaphorjs/src/func/isThenable.js"),
+var isThenable = require("../../metaphorjs/src/func/isThenable.js"),
     bind = require("../../metaphorjs/src/func/bind.js"),
     isUndefined = require("../../metaphorjs/src/func/isUndefined.js"),
     isFunction = require("../../metaphorjs/src/func/isFunction.js"),
@@ -8,7 +7,7 @@ var MetaphorJs = require("../../metaphorjs/src/MetaphorJs.js"),
 
 
 
-var Promise = function(){
+module.exports = function(){
 
     var PENDING     = 0,
         FULFILLED   = 1,
@@ -635,6 +634,3 @@ var Promise = function(){
     return Promise;
 }();
 
-MetaphorJs.lib.Promise = Promise;
-
-module.exports = Promise;

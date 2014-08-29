@@ -1,28 +1,41 @@
 {
     "standalone": {
-        "auto": true,
         "wrap": true,
+        "global": true,
         "target": "dist/metaphorjs.promise.js",
         "files": [
             "../metaphorjs/src/MetaphorJs.js",
-            "src/metaphorjs.promise.js"
+            ["src/metaphorjs.promise.js", {"as": "Promise"}]
+        ],
+        "expose": [
+            ["MetaphorJs.lib", "Promise"]
         ]
     },
 
-    "module": {
-        "auto": true,
+    "npm": {
+        "target": "dist/metaphorjs.promise.npm.js",
+        "files": [
+            ["src/metaphorjs.promise.js", {"keepExports": true}]
+        ]
+    },
+
+    "amd": {
         "target": "dist/metaphorjs.promise.amd.js",
         "files": [
-            "../metaphorjs/src/MetaphorJs.js",
-            "src/metaphorjs.promise.js"
+            ["src/metaphorjs.promise.js", {"returnExports": true}]
         ],
-        "append": [
-            "src/amd/append.js"
-        ]
+        "define": {
+            "name": "metaphorjs-promise"
+        }
     },
 
     "compile-standalone": {
         "target": "dist/metaphorjs.promise.min.js",
         "compile": "standalone"
+    },
+
+    "compile-amd": {
+        "target": "dist/metaphorjs.promise.amd.min.js",
+        "compile": "amd"
     }
 }

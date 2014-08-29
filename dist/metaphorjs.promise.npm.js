@@ -1,4 +1,3 @@
-define("metaphorjs-promise", function() {
 
 var isFunction = function(value) {
     return typeof value === 'function';
@@ -50,7 +49,7 @@ var isUndefined = function(any) {
 
 
 
-return function(){
+module.exports = function(){
 
     var PENDING     = 0,
         FULFILLED   = 1,
@@ -677,5 +676,3 @@ return function(){
     return Promise;
 }();
 
-
-});

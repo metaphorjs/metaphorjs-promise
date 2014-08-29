@@ -2,10 +2,10 @@
 "use strict";
 
 var MetaphorJs = {
-    lib: {}
+    lib: {},
+    cmp: {},
+    view: {}
 };
-
-
 
 var isFunction = function(value) {
     return typeof value === 'function';
@@ -684,7 +684,9 @@ var Promise = function(){
     return Promise;
 }();
 
-MetaphorJs.lib.Promise = Promise;
 
+MetaphorJs.lib['Promise'] = Promise;
+
+typeof global != "undefined" ? (global['MetaphorJs'] = MetaphorJs) : (window['MetaphorJs'] = MetaphorJs);
 
 }());
