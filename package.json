@@ -1,25 +1,25 @@
 {
-  "name": "metaphorjs-promise",
-  "version": "1.0.2",
-  "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
-  "main": "dist/metaphorjs.promise.npm.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kuindji/metaphorjs-promise.git"
-  },
-  "author": "johann kuindji",
-  "license": "MIT",
-  "homepage": "https://github.com/kuindji/metaphorjs-promise",
-  "bugs": {
-    "url": "https://github.com/kuindji/metaphorjs-promise/issues"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "devDependencies": {
-    "promises-aplus-tests": "*"
-  },
-  "scripts": {
-    "test": "node test/run-tests.js"
-  }
+    "name": "metaphorjs-promise",
+    "version": "1.0.3",
+    "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
+    "main": "dist/metaphorjs.promise.npm.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kuindji/metaphorjs-promise.git"
+    },
+    "author": "johann kuindji",
+    "license": "MIT",
+    "homepage": "https://github.com/kuindji/metaphorjs-promise",
+    "bugs": {
+        "url": "https://github.com/kuindji/metaphorjs-promise/issues"
+    },
+    "directories": {
+        "test": "test"
+    },
+    "devDependencies": {
+        "promises-aplus-tests": "*"
+    },
+    "scripts": {
+        "test": "mocha"
+    }
 }

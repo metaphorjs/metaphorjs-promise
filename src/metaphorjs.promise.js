@@ -3,7 +3,8 @@ var isThenable = require("../../metaphorjs/src/func/isThenable.js"),
     bind = require("../../metaphorjs/src/func/bind.js"),
     isUndefined = require("../../metaphorjs/src/func/isUndefined.js"),
     isFunction = require("../../metaphorjs/src/func/isFunction.js"),
-    strUndef = require("../../metaphorjs/src/var/strUndef.js");
+    strUndef = require("../../metaphorjs/src/var/strUndef.js"),
+    error = require("../../metaphorjs/src/func/error.js");
 
 
 
@@ -96,7 +97,8 @@ module.exports = function(){
             return new Promise(fn, fnScope);
         }
 
-        var self = this;
+        var self = this,
+            then;
 
         self._fulfills   = [];
         self._rejects    = [];
@@ -105,10 +107,19 @@ module.exports = function(){
 
         if (!isUndefined(fn)) {
 
-            if (isThenable(fn) || !isFunction(fn)) {
-                self.resolve(fn);
+            if (then = isThenable(fn)) {
+                if (fn instanceof Promise) {
+                    fn.then(
+                        bind(self.resolve, self),
+                        bind(self.reject, self));
+                }
+                else {
+                    (new Promise(then, fn)).then(
+                        bind(self.resolve, self),
+                        bind(self.reject, self));
+                }
             }
-            else {
+            else if (isFunction(fn)) {
                 try {
                     fn.call(fnScope,
                             bind(self.resolve, self),
@@ -117,6 +128,9 @@ module.exports = function(){
                 catch (thrownError) {
                     self.reject(thrownError);
                 }
+            }
+            else {
+                self.resolve(fn);
             }
         }
     };
@@ -362,7 +376,12 @@ module.exports = function(){
                 cb;
 
             while (cb = cbs.shift()) {
-                cb[0].call(cb[1] || null, self._value);
+                try {
+                    cb[0].call(cb[1] || null, self._value);
+                }
+                catch (thrown) {
+                    error(thrown);
+                }
             }
         },
 
@@ -392,7 +411,12 @@ module.exports = function(){
                 cb;
 
             while (cb = cbs.shift()) {
-                cb[0].call(cb[1] || null, self._reason);
+                try {
+                    cb[0].call(cb[1] || null, self._reason);
+                }
+                catch (thrown) {
+                    error(thrown);
+                }
             }
         },
 
@@ -469,12 +493,19 @@ module.exports = function(){
         }
     };
 
+
+    Promise.fcall = function(fn, context, args) {
+        return Promise.resolve(fn.apply(context, args || []));
+    };
+
     /**
      * @param {*} value
      * @returns {Promise}
      */
     Promise.resolve = function(value) {
-        return new Promise(value);
+        var p = new Promise;
+        p.resolve(value);
+        return p;
     };
 
 
@@ -629,6 +660,35 @@ module.exports = function(){
         }
 
         return p;
+    };
+
+    /**
+     * @param {[]} functions -- array of promises or resolve values or functions
+     * @returns {Promise}
+     */
+    Promise.waterfall = function(functions) {
+
+        if (!functions.length) {
+            return Promise.resolve(null);
+        }
+
+        var promise = Promise.fcall(functions.shift()),
+            fn;
+
+        while (fn = functions.shift()) {
+            if (isThenable(fn)) {
+                promise = promise.then(function(fn){
+                    return function(){
+                        return fn;
+                    };
+                }(fn));
+            }
+            else {
+                promise = promise.then(fn);
+            }
+        }
+
+        return promise;
     };
 
     return Promise;

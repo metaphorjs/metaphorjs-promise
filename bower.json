@@ -1,23 +1,23 @@
 {
-  "name": "metaphorjs-promise",
-  "version": "1.0.0",
-  "authors": [
-    "kuindji <kuindji@gmail.com>"
-  ],
-  "description": "Promise A++ implementation",
-  "main": "dist/metaphorjs.promise.amd.min.js",
-  "moduleType": [
-    "amd"
-  ],
-  "keywords": [
-    "promise"
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/kuindji/metaphorjs-promise",
-  "ignore": [
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+    "name": "metaphorjs-promise",
+    "version": "1.0.3",
+    "authors": [
+        "kuindji <kuindji@gmail.com>"
+    ],
+    "description": "Promise A++ implementation",
+    "main": "dist/metaphorjs.promise.amd.min.js",
+    "moduleType": [
+        "amd"
+    ],
+    "keywords": [
+        "promise"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/kuindji/metaphorjs-promise",
+    "ignore": [
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
 }

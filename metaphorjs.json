@@ -1,41 +1,57 @@
 {
-    "standalone": {
-        "wrap": true,
-        "global": true,
-        "target": "dist/metaphorjs.promise.js",
-        "files": [
-            "../metaphorjs/src/MetaphorJs.js",
-            ["src/metaphorjs.promise.js", {"as": "Promise"}]
-        ],
-        "expose": [
-            ["MetaphorJs.lib", "Promise"]
-        ]
+    "version": "1.0.3",
+    "test": {
+        "cmd": "mocha"
     },
-
-    "npm": {
-        "target": "dist/metaphorjs.promise.npm.js",
-        "files": [
-            ["src/metaphorjs.promise.js", {"keepExports": true}]
-        ]
-    },
-
-    "amd": {
-        "target": "dist/metaphorjs.promise.amd.js",
-        "files": [
-            ["src/metaphorjs.promise.js", {"returnExports": true}]
-        ],
-        "define": {
-            "name": "metaphorjs-promise"
+    "push": [
+        "github"
+    ],
+    "build": {
+        "standalone": {
+            "wrap": true,
+            "global": true,
+            "target": "dist/metaphorjs.promise.js",
+            "files": [
+                "../metaphorjs/src/MetaphorJs.js",
+                [
+                    "src/metaphorjs.promise.js",
+                    {
+                        "as": "Promise"
+                    }
+                ]
+            ],
+            "expose": [
+                [
+                    "MetaphorJs.lib",
+                    "Promise"
+                ]
+            ]
+        },
+        "npm": {
+            "target": "dist/metaphorjs.promise.npm.js",
+            "compile": false,
+            "files": [
+                [
+                    "src/metaphorjs.promise.js",
+                    {
+                        "keepExports": true
+                    }
+                ]
+            ]
+        },
+        "amd": {
+            "target": "dist/metaphorjs.promise.amd.js",
+            "files": [
+                [
+                    "src/metaphorjs.promise.js",
+                    {
+                        "returnExports": true
+                    }
+                ]
+            ],
+            "define": {
+                "name": "metaphorjs-promise"
+            }
         }
-    },
-
-    "compile-standalone": {
-        "target": "dist/metaphorjs.promise.min.js",
-        "compile": "standalone"
-    },
-
-    "compile-amd": {
-        "target": "dist/metaphorjs.promise.amd.min.js",
-        "compile": "amd"
     }
 }
