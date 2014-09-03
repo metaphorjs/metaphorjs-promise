@@ -1,10 +1,70 @@
 define("metaphorjs-promise", function() {
 
 var isFunction = function(value) {
-    return typeof value === 'function';
+    return typeof value == 'function';
 };
+var toString = Object.prototype.toString;
+var undf = undefined;
+
+
+
+var varType = function(){
+
+    var types = {
+        '[object String]': 0,
+        '[object Number]': 1,
+        '[object Boolean]': 2,
+        '[object Object]': 3,
+        '[object Function]': 4,
+        '[object Array]': 5,
+        '[object RegExp]': 9,
+        '[object Date]': 10
+    };
+
+
+    /**
+        'string': 0,
+        'number': 1,
+        'boolean': 2,
+        'object': 3,
+        'function': 4,
+        'array': 5,
+        'null': 6,
+        'undefined': 7,
+        'NaN': 8,
+        'regexp': 9,
+        'date': 10
+    */
+
+    return function(val) {
+
+        if (!val) {
+            if (val === null) {
+                return 6;
+            }
+            if (val === undf) {
+                return 7;
+            }
+        }
+
+        var num = types[toString.call(val)];
+
+        if (num === undf) {
+            return -1;
+        }
+
+        if (num == 1 && isNaN(val)) {
+            num = 8;
+        }
+
+        return num;
+    };
+
+}();
+
+
 var isObject = function(value) {
-    return value != null && typeof value === 'object';
+    return value !== null && typeof value == "object" && varType(value) > 2;
 };
 
 
@@ -15,10 +75,7 @@ var isObject = function(value) {
  */
 var isThenable = function(any) {
     var then;
-    if (!any) {
-        return false;
-    }
-    if (!isObject(any) && !isFunction(any)) {
+    if (!any || (!isObject(any) && !isFunction(any))) {
         return false;
     }
     return isFunction((then = any.then)) ?
@@ -39,13 +96,7 @@ var bind = Function.prototype.bind ?
               };
 
 
-var strUndef = "undefined";
-
-
-var isUndefined = function(any) {
-    return typeof any == strUndef;
-};
-/**
+var strUndef = "undefined";/**
  * @param {Function} fn
  * @param {Object} context
  * @param {[]} args
@@ -61,14 +112,17 @@ var error = function(e) {
 
     var stack = e.stack || (new Error).stack;
 
-    async(function(){
-        if (!isUndefined(console) && console.log) {
+    if (typeof console != strUndef && console.log) {
+        async(function(){
             console.log(e);
             if (stack) {
                 console.log(stack);
             }
-        }
-    });
+        });
+    }
+    else {
+        throw e;
+    }
 };
 
 
@@ -171,7 +225,7 @@ return function(){
         self._dones      = [];
         self._fails      = [];
 
-        if (!isUndefined(fn)) {
+        if (arguments.length > 0) {
 
             if (then = isThenable(fn)) {
                 if (fn instanceof Promise) {

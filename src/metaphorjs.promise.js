@@ -1,7 +1,6 @@
 
 var isThenable = require("../../metaphorjs/src/func/isThenable.js"),
     bind = require("../../metaphorjs/src/func/bind.js"),
-    isUndefined = require("../../metaphorjs/src/func/isUndefined.js"),
     isFunction = require("../../metaphorjs/src/func/isFunction.js"),
     strUndef = require("../../metaphorjs/src/var/strUndef.js"),
     error = require("../../metaphorjs/src/func/error.js");
@@ -105,7 +104,7 @@ module.exports = function(){
         self._dones      = [];
         self._fails      = [];
 
-        if (!isUndefined(fn)) {
+        if (arguments.length > 0) {
 
             if (then = isThenable(fn)) {
                 if (fn instanceof Promise) {
