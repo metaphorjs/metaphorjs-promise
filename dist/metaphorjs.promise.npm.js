@@ -53,7 +53,7 @@ var varType = function(){
         }
 
         if (num == 1 && isNaN(val)) {
-            num = 8;
+            return 8;
         }
 
         return num;
@@ -63,7 +63,11 @@ var varType = function(){
 
 
 var isObject = function(value) {
-    return value !== null && typeof value == "object" && varType(value) > 2;
+    if (value === null || typeof value != "object") {
+        return false;
+    }
+    var vt = varType(value);
+    return vt > 2 || vt == -1;
 };
 
 
@@ -791,7 +795,8 @@ module.exports = function(){
             return Promise.resolve(null);
         }
 
-        var promise = Promise.fcall(functions.shift()),
+        var first   = functions.shift(),
+            promise = isFunction(first) ? Promise.fcall(first) : Promise.resolve(fn),
             fn;
 
         while (fn = functions.shift()) {
@@ -802,10 +807,27 @@ module.exports = function(){
                     };
                 }(fn));
             }
-            else {
+            else if (isFunction(fn)) {
                 promise = promise.then(fn);
             }
+            else {
+                promise.resolve(fn);
+            }
         }
+
+        return promise;
+    };
+
+    Promise.counter = function(cnt) {
+
+        var promise     = new Promise;
+
+        promise.countdown = function() {
+            cnt--;
+            if (cnt == 0) {
+                promise.resolve();
+            }
+        };
 
         return promise;
     };
