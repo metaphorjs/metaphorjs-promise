@@ -1,6 +1,6 @@
 {
     "name": "metaphorjs-promise",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
     "main": "dist/metaphorjs.promise.npm.js",
     "repository": {
