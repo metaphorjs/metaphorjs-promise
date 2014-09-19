@@ -7,7 +7,7 @@ var MetaphorJs = {
     view: {}
 };
 
-var isFunction = function(value) {
+function isFunction(value) {
     return typeof value == 'function';
 };
 
@@ -17,7 +17,7 @@ var isFunction = function(value) {
  * @param {*} any
  * @returns {Function|boolean}
  */
-var isThenable = function(any) {
+function isThenable(any) {
     if (!any || !any.then) {
         return false;
     }
@@ -50,14 +50,14 @@ var strUndef = "undefined";/**
  * @param {[]} args
  * @param {number} timeout
  */
-var async = function(fn, context, args, timeout) {
+function async(fn, context, args, timeout) {
     setTimeout(function(){
         fn.apply(context, args || []);
     }, timeout || 0);
 };
 
 
-var error = function(e) {
+function error(e) {
 
     var stack = e.stack || (new Error).stack;
 
@@ -74,6 +74,151 @@ var error = function(e) {
     }
 };
 
+var slice = Array.prototype.slice;
+var toString = Object.prototype.toString;
+var undf = undefined;
+
+
+
+var varType = function(){
+
+    var types = {
+        '[object String]': 0,
+        '[object Number]': 1,
+        '[object Boolean]': 2,
+        '[object Object]': 3,
+        '[object Function]': 4,
+        '[object Array]': 5,
+        '[object RegExp]': 9,
+        '[object Date]': 10
+    };
+
+
+    /**
+        'string': 0,
+        'number': 1,
+        'boolean': 2,
+        'object': 3,
+        'function': 4,
+        'array': 5,
+        'null': 6,
+        'undefined': 7,
+        'NaN': 8,
+        'regexp': 9,
+        'date': 10
+    */
+
+    return function varType(val) {
+
+        if (!val) {
+            if (val === null) {
+                return 6;
+            }
+            if (val === undf) {
+                return 7;
+            }
+        }
+
+        var num = types[toString.call(val)];
+
+        if (num === undf) {
+            return -1;
+        }
+
+        if (num == 1 && isNaN(val)) {
+            return 8;
+        }
+
+        return num;
+    };
+
+}();
+
+
+function isPlainObject(value) {
+    // IE < 9 returns [object Object] from toString(htmlElement)
+    return typeof value == "object" &&
+           varType(value) === 3 &&
+            !value.nodeType &&
+            value.constructor === Object;
+
+};
+
+
+function isBool(value) {
+    return value === true || value === false;
+};
+function isNull(value) {
+    return value === null;
+};
+
+
+/**
+ * @param {Object} dst
+ * @param {Object} src
+ * @param {Object} src2 ... srcN
+ * @param {boolean} override = false
+ * @param {boolean} deep = false
+ * @returns {*}
+ */
+var extend = function(){
+
+    var extend = function extend() {
+
+
+        var override    = false,
+            deep        = false,
+            args        = slice.call(arguments),
+            dst         = args.shift(),
+            src,
+            k,
+            value;
+
+        if (isBool(args[args.length - 1])) {
+            override    = args.pop();
+        }
+        if (isBool(args[args.length - 1])) {
+            deep        = override;
+            override    = args.pop();
+        }
+
+        while (args.length) {
+            if (src = args.shift()) {
+                for (k in src) {
+
+                    if (src.hasOwnProperty(k) && (value = src[k]) !== undf) {
+
+                        if (deep) {
+                            if (dst[k] && isPlainObject(dst[k]) && isPlainObject(value)) {
+                                extend(dst[k], value, override, deep);
+                            }
+                            else {
+                                if (override === true || dst[k] == undf) { // == checks for null and undefined
+                                    if (isPlainObject(value)) {
+                                        dst[k] = {};
+                                        extend(dst[k], value, override, true);
+                                    }
+                                    else {
+                                        dst[k] = value;
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            if (override === true || dst[k] == undf) {
+                                dst[k] = value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return dst;
+    };
+
+    return extend;
+}();
 
 
 
@@ -204,7 +349,7 @@ var Promise = function(){
         }
     };
 
-    Promise.prototype = {
+    extend(Promise.prototype, {
 
         _state: PENDING,
 
@@ -235,10 +380,10 @@ var Promise = function(){
         _cleanup: function() {
             var self    = this;
 
-            delete self._fulfills;
-            delete self._rejects;
-            delete self._dones;
-            delete self._fails;
+            self._fulfills = null;
+            self._rejects = null;
+            self._dones = null;
+            self._fails = null;
         },
 
         _processValue: function(value, cb) {
@@ -570,7 +715,7 @@ var Promise = function(){
 
             return self;
         }
-    };
+    }, true, false);
 
 
     Promise.fcall = function(fn, context, args) {

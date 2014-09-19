@@ -3,8 +3,8 @@ var isThenable = require("../../metaphorjs/src/func/isThenable.js"),
     bind = require("../../metaphorjs/src/func/bind.js"),
     isFunction = require("../../metaphorjs/src/func/isFunction.js"),
     strUndef = require("../../metaphorjs/src/var/strUndef.js"),
-    error = require("../../metaphorjs/src/func/error.js");
-
+    error = require("../../metaphorjs/src/func/error.js"),
+    extend = require("../../metaphorjs/src/func/extend.js");
 
 
 module.exports = function(){
@@ -134,7 +134,7 @@ module.exports = function(){
         }
     };
 
-    Promise.prototype = {
+    extend(Promise.prototype, {
 
         _state: PENDING,
 
@@ -165,10 +165,10 @@ module.exports = function(){
         _cleanup: function() {
             var self    = this;
 
-            delete self._fulfills;
-            delete self._rejects;
-            delete self._dones;
-            delete self._fails;
+            self._fulfills = null;
+            self._rejects = null;
+            self._dones = null;
+            self._fails = null;
         },
 
         _processValue: function(value, cb) {
@@ -500,7 +500,7 @@ module.exports = function(){
 
             return self;
         }
-    };
+    }, true, false);
 
 
     Promise.fcall = function(fn, context, args) {
