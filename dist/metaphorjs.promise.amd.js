@@ -5,6 +5,7 @@ function isFunction(value) {
 };
 
 
+
 /**
  * Returns 'then' function or false
  * @param {*} any
@@ -22,6 +23,7 @@ function isThenable(any) {
     return isFunction((then = any.then)) ?
            then : false;
 };
+
 /**
  * @param {Function} fn
  * @param {*} context
@@ -37,7 +39,9 @@ var bind = Function.prototype.bind ?
               };
 
 
-var strUndef = "undefined";/**
+
+var strUndef = "undefined";
+/**
  * @param {Function} fn
  * @param {Object} context
  * @param {[]} args
@@ -48,6 +52,7 @@ function async(fn, context, args, timeout) {
         fn.apply(context, args || []);
     }, timeout || 0);
 };
+
 
 
 function error(e) {
@@ -67,9 +72,13 @@ function error(e) {
     }
 };
 
+
 var slice = Array.prototype.slice;
+
 var toString = Object.prototype.toString;
+
 var undf = undefined;
+
 
 
 
@@ -128,6 +137,7 @@ var varType = function(){
 }();
 
 
+
 function isPlainObject(value) {
     // IE < 9 returns [object Object] from toString(htmlElement)
     return typeof value == "object" &&
@@ -137,25 +147,23 @@ function isPlainObject(value) {
 
 };
 
-
 function isBool(value) {
     return value === true || value === false;
 };
-function isNull(value) {
-    return value === null;
-};
 
 
-/**
- * @param {Object} dst
- * @param {Object} src
- * @param {Object} src2 ... srcN
- * @param {boolean} override = false
- * @param {boolean} deep = false
- * @returns {*}
- */
+
+
 var extend = function(){
 
+    /**
+     * @param {Object} dst
+     * @param {Object} src
+     * @param {Object} src2 ... srcN
+     * @param {boolean} override = false
+     * @param {boolean} deep = false
+     * @returns {object}
+     */
     var extend = function extend() {
 
 
@@ -215,6 +223,7 @@ var extend = function(){
 
 
 
+
 return function(){
 
     var PENDING     = 0,
@@ -254,6 +263,7 @@ return function(){
          * @param {Function} fn
          * @param {Object} scope
          * @param {[]} args
+         * @ignore
          */
         next        = function(fn, scope, args) {
             args = args || [];
@@ -275,6 +285,7 @@ return function(){
          * @param {Function} fn
          * @param {Promise} promise
          * @returns {Function}
+         * @ignore
          */
         wrapper     = function(fn, promise) {
             return function(value) {
@@ -669,7 +680,7 @@ return function(){
         },
 
         /**
-         * @returns {{then: function, done: function, fail: function, always: function}}
+         * @returns {object} then: function, done: function, fail: function, always: function
          */
         promise: function() {
             var self = this;
@@ -930,4 +941,6 @@ return function(){
 }();
 
 
+
 });
+

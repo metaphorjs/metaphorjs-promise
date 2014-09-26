@@ -46,6 +46,7 @@ module.exports = function(){
          * @param {Function} fn
          * @param {Object} scope
          * @param {[]} args
+         * @ignore
          */
         next        = function(fn, scope, args) {
             args = args || [];
@@ -67,6 +68,7 @@ module.exports = function(){
          * @param {Function} fn
          * @param {Promise} promise
          * @returns {Function}
+         * @ignore
          */
         wrapper     = function(fn, promise) {
             return function(value) {
@@ -461,7 +463,7 @@ module.exports = function(){
         },
 
         /**
-         * @returns {{then: function, done: function, fail: function, always: function}}
+         * @returns {object} then: function, done: function, fail: function, always: function
          */
         promise: function() {
             var self = this;
