@@ -12,10 +12,15 @@ function isFunction(value) {
  * @returns {Function|boolean}
  */
 function isThenable(any) {
-    if (!any || !any.then) {
+
+    // any.then must only be accessed once
+    // this is a promise/a+ requirement
+
+    if (!any) { //  || !any.then
         return false;
     }
     var then, t;
+
     //if (!any || (!isObject(any) && !isFunction(any))) {
     if (((t = typeof any) != "object" && t != "function")) {
         return false;
@@ -97,19 +102,21 @@ var varType = function(){
 
 
     /**
-        'string': 0,
-        'number': 1,
-        'boolean': 2,
-        'object': 3,
-        'function': 4,
-        'array': 5,
-        'null': 6,
-        'undefined': 7,
-        'NaN': 8,
-        'regexp': 9,
-        'date': 10
-    */
-
+     * 'string': 0,
+     * 'number': 1,
+     * 'boolean': 2,
+     * 'object': 3,
+     * 'function': 4,
+     * 'array': 5,
+     * 'null': 6,
+     * 'undefined': 7,
+     * 'NaN': 8,
+     * 'regexp': 9,
+     * 'date': 10,
+     * unknown: -1
+     * @param {*} value
+     * @returns {number}
+     */
     return function varType(val) {
 
         if (!val) {
@@ -300,19 +307,54 @@ return function(){
 
 
     /**
-     * @param {Function} fn -- function(resolve, reject)
-     * @param {Object} fnScope
+     * @class Promise
+     */
+
+
+    /**
+     * @method Promise
+     * @param {Function} fn {
+     *  @description Function that accepts two parameters: resolve and reject functions.
+     *  @param {function} resolve {
+     *      @param {*} value
+     *  }
+     *  @param {function} reject {
+     *      @param {*} reason
+     *  }
+     * }
+     * @param {Object} context
      * @returns {Promise}
      * @constructor
      */
-    var Promise = function(fn, fnScope) {
+
+    /**
+     * @method Promise
+     * @param {Thenable} thenable
+     * @returns {Promise}
+     * @constructor
+     */
+
+    /**
+     * @method Promise
+     * @param {*} value Value to resolve promise with
+     * @returns {Promise}
+     * @constructor
+     */
+
+
+    /**
+     * @method Promise
+     * @returns {Promise}
+     * @constructor
+     */
+    var Promise = function(fn, context) {
 
         if (fn instanceof Promise) {
             return fn;
         }
 
         if (!(this instanceof Promise)) {
-            return new Promise(fn, fnScope);
+            return new Promise(fn, context);
         }
 
         var self = this,
@@ -339,7 +381,7 @@ return function(){
             }
             else if (isFunction(fn)) {
                 try {
-                    fn.call(fnScope,
+                    fn.call(context,
                             bind(self.resolve, self),
                             bind(self.reject, self));
                 }
@@ -605,23 +647,23 @@ return function(){
 
         /**
          * @param {Function} fn -- function to call when promise is resolved
-         * @param {Object} fnScope -- function's "this" object
+         * @param {Object} context -- function's "this" object
          * @returns {Promise} same promise
          */
-        done: function(fn, fnScope) {
+        done: function(fn, context) {
             var self    = this,
                 state   = self._state;
 
             if (state == FULFILLED && self._wait == 0) {
                 try {
-                    fn.call(fnScope || null, self._value);
+                    fn.call(context || null, self._value);
                 }
                 catch (thrown) {
                     error(thrown);
                 }
             }
             else if (state == PENDING) {
-                self._dones.push([fn, fnScope]);
+                self._dones.push([fn, context]);
             }
 
             return self;
@@ -645,24 +687,24 @@ return function(){
 
         /**
          * @param {Function} fn -- function to call when promise is rejected.
-         * @param {Object} fnScope -- function's "this" object
+         * @param {Object} context -- function's "this" object
          * @returns {Promise} same promise
          */
-        fail: function(fn, fnScope) {
+        fail: function(fn, context) {
 
             var self    = this,
                 state   = self._state;
 
             if (state == REJECTED && self._wait == 0) {
                 try {
-                    fn.call(fnScope || null, self._reason);
+                    fn.call(context || null, self._reason);
                 }
                 catch (thrown) {
                     error(thrown);
                 }
             }
             else if (state == PENDING) {
-                self._fails.push([fn, fnScope]);
+                self._fails.push([fn, context]);
             }
 
             return self;
@@ -670,12 +712,12 @@ return function(){
 
         /**
          * @param {Function} fn -- function to call when promise resolved or rejected
-         * @param {Object} fnScope -- function's "this" object
+         * @param {Object} context -- function's "this" object
          * @return {Promise} same promise
          */
-        always: function(fn, fnScope) {
-            this.done(fn, fnScope);
-            this.fail(fn, fnScope);
+        always: function(fn, context) {
+            this.done(fn, context);
+            this.fail(fn, context);
             return this;
         },
 
@@ -722,6 +764,13 @@ return function(){
     }, true, false);
 
 
+    /**
+     * @param {function} fn
+     * @param {object} context
+     * @param {[]} args
+     * @returns {Promise}
+     * @static
+     */
     Promise.fcall = function(fn, context, args) {
         return Promise.resolve(fn.apply(context, args || []));
     };
@@ -729,6 +778,7 @@ return function(){
     /**
      * @param {*} value
      * @returns {Promise}
+     * @static
      */
     Promise.resolve = function(value) {
         var p = new Promise;
@@ -740,6 +790,7 @@ return function(){
     /**
      * @param {*} reason
      * @returns {Promise}
+     * @static
      */
     Promise.reject = function(reason) {
         var p = new Promise;
@@ -751,6 +802,7 @@ return function(){
     /**
      * @param {[]} promises -- array of promises or resolve values
      * @returns {Promise}
+     * @static
      */
     Promise.all = function(promises) {
 
@@ -805,6 +857,7 @@ return function(){
      * @param {Promise|*} promise2
      * @param {Promise|*} promiseN
      * @returns {Promise}
+     * @static
      */
     Promise.when = function() {
         return Promise.all(arguments);
@@ -813,6 +866,7 @@ return function(){
     /**
      * @param {[]} promises -- array of promises or resolve values
      * @returns {Promise}
+     * @static
      */
     Promise.allResolved = function(promises) {
 
@@ -857,6 +911,7 @@ return function(){
     /**
      * @param {[]} promises -- array of promises or resolve values
      * @returns {Promise}
+     * @static
      */
     Promise.race = function(promises) {
 
@@ -893,6 +948,7 @@ return function(){
     /**
      * @param {[]} functions -- array of promises or resolve values or functions
      * @returns {Promise}
+     * @static
      */
     Promise.waterfall = function(functions) {
 

@@ -1,0 +1,1808 @@
+{
+  "type": "root",
+  "name": null,
+  "fullName": null,
+  "file": null,
+  "originalFile": null,
+  "fileType": "*",
+  "template": "*.item.root",
+  "level": 0,
+  "flags": {},
+  "plainFlags": {},
+  "booleanFlags": [],
+  "children": [
+    {
+      "type": "class",
+      "name": "Class",
+      "groupName": "Classes",
+      "items": [
+        {
+          "type": "class",
+          "name": "Promise",
+          "fullName": "Promise",
+          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+          "fileType": "js",
+          "template": "js.item.class",
+          "level": 1,
+          "flags": {},
+          "plainFlags": {},
+          "booleanFlags": [],
+          "children": [
+            {
+              "type": "method",
+              "name": "Method",
+              "groupName": "Methods",
+              "items": [
+                {
+                  "type": "method",
+                  "name": "Promise",
+                  "fullName": "Promise.Promise",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise.Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "constructor"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "fn",
+                          "fullName": "Promise.Promise/fn",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "function",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "function"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [
+                            {
+                              "type": "param",
+                              "items": [
+                                {
+                                  "type": "param",
+                                  "name": "resolve",
+                                  "fullName": "Promise.Promise/fn/resolve",
+                                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                                  "fileType": "js",
+                                  "template": "js.item.param",
+                                  "level": 4,
+                                  "flags": {
+                                    "type": [
+                                      {
+                                        "contentType": "string",
+                                        "content": "function",
+                                        "template": "js.flag.type"
+                                      }
+                                    ]
+                                  },
+                                  "plainFlags": {
+                                    "type": [
+                                      "function"
+                                    ]
+                                  },
+                                  "booleanFlags": [],
+                                  "children": [
+                                    {
+                                      "type": "param",
+                                      "items": [
+                                        {
+                                          "type": "param",
+                                          "name": "value",
+                                          "fullName": "Promise.Promise/fn/resolve/value",
+                                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                                          "fileType": "js",
+                                          "template": "js.item.param",
+                                          "level": 5,
+                                          "flags": {
+                                            "type": [
+                                              {
+                                                "contentType": "string",
+                                                "content": "*",
+                                                "template": "js.flag.type"
+                                              }
+                                            ]
+                                          },
+                                          "plainFlags": {
+                                            "type": [
+                                              "*"
+                                            ]
+                                          },
+                                          "booleanFlags": [],
+                                          "children": [],
+                                          "childTypes": []
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "childTypes": [
+                                    "param"
+                                  ]
+                                },
+                                {
+                                  "type": "param",
+                                  "name": "reject",
+                                  "fullName": "Promise.Promise/fn/reject",
+                                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                                  "fileType": "js",
+                                  "template": "js.item.param",
+                                  "level": 4,
+                                  "flags": {
+                                    "type": [
+                                      {
+                                        "contentType": "string",
+                                        "content": "function",
+                                        "template": "js.flag.type"
+                                      }
+                                    ]
+                                  },
+                                  "plainFlags": {
+                                    "type": [
+                                      "function"
+                                    ]
+                                  },
+                                  "booleanFlags": [],
+                                  "children": [
+                                    {
+                                      "type": "param",
+                                      "items": [
+                                        {
+                                          "type": "param",
+                                          "name": "reason",
+                                          "fullName": "Promise.Promise/fn/reject/reason",
+                                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                                          "fileType": "js",
+                                          "template": "js.item.param",
+                                          "level": 5,
+                                          "flags": {
+                                            "type": [
+                                              {
+                                                "contentType": "string",
+                                                "content": "*",
+                                                "template": "js.flag.type"
+                                              }
+                                            ]
+                                          },
+                                          "plainFlags": {
+                                            "type": [
+                                              "*"
+                                            ]
+                                          },
+                                          "booleanFlags": [],
+                                          "children": [],
+                                          "childTypes": []
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "childTypes": [
+                                    "param"
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "childTypes": [
+                            "param"
+                          ],
+                          "line": 105,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "Function that accepts two parameters: resolve and reject functions.",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "param",
+                          "name": "context",
+                          "fullName": "Promise.Promise/context",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "object",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "object"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 105
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 105
+                },
+                {
+                  "type": "method",
+                  "name": "Promise",
+                  "fullName": "Promise.Promise",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise.Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "constructor"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "thenable",
+                          "fullName": "Promise.Promise/thenable",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "Thenable",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "Thenable"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 112
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 112
+                },
+                {
+                  "type": "method",
+                  "name": "Promise",
+                  "fullName": "Promise.Promise",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise.Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "constructor"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "value",
+                          "fullName": "Promise.Promise/value",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "*",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "*"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 119,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "Value to resolve promise with",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 119
+                },
+                {
+                  "type": "method",
+                  "name": "Promise",
+                  "fullName": "Promise.Promise",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise.Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "constructor"
+                  ],
+                  "children": [],
+                  "childTypes": [],
+                  "line": 126
+                },
+                {
+                  "type": "method",
+                  "name": "resolve",
+                  "fullName": "Promise.resolve",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {},
+                  "plainFlags": {},
+                  "booleanFlags": [],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "value",
+                          "fullName": "Promise.resolve/value",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "*",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "*"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 286
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 286
+                },
+                {
+                  "type": "method",
+                  "name": "reject",
+                  "fullName": "Promise.reject",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {},
+                  "plainFlags": {},
+                  "booleanFlags": [],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "reason",
+                          "fullName": "Promise.reject/reason",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "*",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "*"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 337
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 337
+                },
+                {
+                  "type": "method",
+                  "name": "then",
+                  "fullName": "Promise.then",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returnDescription": [
+                      {
+                        "contentType": "string",
+                        "content": "new promise",
+                        "template": "js.flag.returnDescription"
+                      }
+                    ],
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returnDescription": [
+                      "new promise"
+                    ],
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "resolve",
+                          "fullName": "Promise.then/resolve",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "function",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "function"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 357,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- called when this promise is resolved; returns new resolve value",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "param",
+                          "name": "reject",
+                          "fullName": "Promise.then/reject",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "function",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "function"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 357,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- called when this promise is rejects; returns new reject reason",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 357
+                },
+                {
+                  "type": "method",
+                  "name": "catch",
+                  "fullName": "Promise.catch",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returnDescription": [
+                      {
+                        "contentType": "string",
+                        "content": "new promise",
+                        "template": "js.flag.returnDescription"
+                      }
+                    ],
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returnDescription": [
+                      "new promise"
+                    ],
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "reject",
+                          "fullName": "Promise.catch/reject",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "function",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "function"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 404,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- same as then(null, reject)",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 404
+                },
+                {
+                  "type": "method",
+                  "name": "done",
+                  "fullName": "Promise.done",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returnDescription": [
+                      {
+                        "contentType": "string",
+                        "content": "same promise",
+                        "template": "js.flag.returnDescription"
+                      }
+                    ],
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returnDescription": [
+                      "same promise"
+                    ],
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "fn",
+                          "fullName": "Promise.done/fn",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "function",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "function"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 429,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- function to call when promise is resolved",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "param",
+                          "name": "context",
+                          "fullName": "Promise.done/context",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "object",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "object"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 429,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- function's \"this\" object",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 429
+                },
+                {
+                  "type": "method",
+                  "name": "fail",
+                  "fullName": "Promise.fail",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returnDescription": [
+                      {
+                        "contentType": "string",
+                        "content": "same promise",
+                        "template": "js.flag.returnDescription"
+                      }
+                    ],
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returnDescription": [
+                      "same promise"
+                    ],
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "fn",
+                          "fullName": "Promise.fail/fn",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "function",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "function"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 469,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- function to call when promise is rejected.",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "param",
+                          "name": "context",
+                          "fullName": "Promise.fail/context",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "object",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "object"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 469,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- function's \"this\" object",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 469
+                },
+                {
+                  "type": "method",
+                  "name": "always",
+                  "fullName": "Promise.always",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returnDescription": [
+                      {
+                        "contentType": "string",
+                        "content": "same promise",
+                        "template": "js.flag.returnDescription"
+                      }
+                    ],
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returnDescription": [
+                      "same promise"
+                    ],
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "fn",
+                          "fullName": "Promise.always/fn",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "function",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "function"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 494,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- function to call when promise resolved or rejected",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "param",
+                          "name": "context",
+                          "fullName": "Promise.always/context",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "object",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "object"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 494,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- function's \"this\" object",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 494
+                },
+                {
+                  "type": "method",
+                  "name": "fcall",
+                  "fullName": "Promise.fcall",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "static"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "fn",
+                          "fullName": "Promise.fcall/fn",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "function",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "function"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 550
+                        },
+                        {
+                          "type": "param",
+                          "name": "context",
+                          "fullName": "Promise.fcall/context",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "object",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "object"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 550
+                        },
+                        {
+                          "type": "param",
+                          "name": "args",
+                          "fullName": "Promise.fcall/args",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "array",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "array"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 550
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 550
+                },
+                {
+                  "type": "method",
+                  "name": "resolve",
+                  "fullName": "Promise.resolve",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "static"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "value",
+                          "fullName": "Promise.resolve/value",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "*",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "*"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 559
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 559
+                },
+                {
+                  "type": "method",
+                  "name": "reject",
+                  "fullName": "Promise.reject",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "static"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "reason",
+                          "fullName": "Promise.reject/reason",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "*",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "*"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 571
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 571
+                },
+                {
+                  "type": "method",
+                  "name": "all",
+                  "fullName": "Promise.all",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "static"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "promises",
+                          "fullName": "Promise.all/promises",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "array",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "array"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 583,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- array of promises or resolve values",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 583
+                },
+                {
+                  "type": "method",
+                  "name": "when",
+                  "fullName": "Promise.when",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "static"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "promise1",
+                          "fullName": "Promise.when/promise1",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "typeRef",
+                                "content": "Promise",
+                                "template": "js.flag.type",
+                                "ref": "Promise"
+                              },
+                              {
+                                "contentType": "string",
+                                "content": "*",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "Promise",
+                              "*"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 638
+                        },
+                        {
+                          "type": "param",
+                          "name": "promise2",
+                          "fullName": "Promise.when/promise2",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "typeRef",
+                                "content": "Promise",
+                                "template": "js.flag.type",
+                                "ref": "Promise"
+                              },
+                              {
+                                "contentType": "string",
+                                "content": "*",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "Promise",
+                              "*"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 638
+                        },
+                        {
+                          "type": "param",
+                          "name": "promiseN",
+                          "fullName": "Promise.when/promiseN",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "typeRef",
+                                "content": "Promise",
+                                "template": "js.flag.type",
+                                "ref": "Promise"
+                              },
+                              {
+                                "contentType": "string",
+                                "content": "*",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "Promise",
+                              "*"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 638
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 638
+                },
+                {
+                  "type": "method",
+                  "name": "allResolved",
+                  "fullName": "Promise.allResolved",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "static"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "promises",
+                          "fullName": "Promise.allResolved/promises",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "array",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "array"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 647,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- array of promises or resolve values",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 647
+                },
+                {
+                  "type": "method",
+                  "name": "race",
+                  "fullName": "Promise.race",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "static"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "promises",
+                          "fullName": "Promise.race/promises",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "array",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "array"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 692,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- array of promises or resolve values",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 692
+                },
+                {
+                  "type": "method",
+                  "name": "waterfall",
+                  "fullName": "Promise.waterfall",
+                  "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                  "fileType": "js",
+                  "template": "js.item.method",
+                  "level": 2,
+                  "flags": {
+                    "returns": [
+                      {
+                        "contentType": "typeRef",
+                        "content": "Promise",
+                        "template": "js.flag.returns",
+                        "ref": "Promise"
+                      }
+                    ]
+                  },
+                  "plainFlags": {
+                    "returns": [
+                      "Promise"
+                    ]
+                  },
+                  "booleanFlags": [
+                    "static"
+                  ],
+                  "children": [
+                    {
+                      "type": "param",
+                      "items": [
+                        {
+                          "type": "param",
+                          "name": "functions",
+                          "fullName": "Promise.waterfall/functions",
+                          "file": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "originalFile": "/Users/kuindji/Documents/projects/metaphorjs/metaphorjs-promise/src/metaphorjs.promise.js",
+                          "fileType": "js",
+                          "template": "js.item.param",
+                          "level": 3,
+                          "flags": {
+                            "type": [
+                              {
+                                "contentType": "string",
+                                "content": "array",
+                                "template": "js.flag.type"
+                              }
+                            ]
+                          },
+                          "plainFlags": {
+                            "type": [
+                              "array"
+                            ]
+                          },
+                          "booleanFlags": [],
+                          "children": [],
+                          "childTypes": [],
+                          "line": 729,
+                          "description": [
+                            {
+                              "contentType": "string",
+                              "content": "-- array of promises or resolve values or functions",
+                              "template": "js.flag.description"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "childTypes": [
+                    "param"
+                  ],
+                  "line": 729
+                }
+              ]
+            }
+          ],
+          "childTypes": [
+            "method"
+          ],
+          "line": 88
+        }
+      ]
+    }
+  ],
+  "childTypes": [
+    "class"
+  ]
+}

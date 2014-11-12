@@ -1,0 +1,1803 @@
+<!DOCTYPE html><html><head lang="en">
+    <meta charset="UTF-8">
+    <title>MetaphorJs.Promise</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/prism/themes/prism.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/prism/prism.js"></script>
+</head>
+<body>
+
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MetaphorJs.Promise</a>
+        </div>
+
+
+        <div class="navbar-collapse collapse">
+
+            
+
+            
+        </div><!--/.nav-collapse -->
+
+    </div>
+</div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>MetaphorJs.Promise</h1>
+        <p>Bare bones Promises/A+ implementation / ES6 Promise polyfill</p>
+        <p>v1.0.7</p>
+    </div>
+</div>
+
+<div class="container source-container">
+    <div class="row item-group level-0">
+        
+        <div class="col-md-12 item-group-items item-group-type-class level-0">
+            <div class="item-header" id="Promise">
+    
+        
+    
+    <h3>
+        
+        <span class="item-name">Promise</span>
+        
+    </h3>
+</div>
+
+
+
+
+
+    <div class="col-md-2 nopadding item-nav-container">
+        <ul class="item-nav">
+    <li class="item-nav-group-name">Methods</li>
+    <li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.Promise">
+            <span class="item-nav-item-name">Promise</span>
+            
+                
+                    <span class="item-nav-item-arguments">(fn, context)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.Promise">
+            <span class="item-nav-item-name">Promise</span>
+            
+                
+                    <span class="item-nav-item-arguments">(thenable)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.Promise">
+            <span class="item-nav-item-name">Promise</span>
+            
+                
+                    <span class="item-nav-item-arguments">(value)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.Promise">
+            <span class="item-nav-item-name">Promise</span>
+            
+                
+                
+                    <span class="item-nav-item-arguments">()</span>
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.resolve">
+            <span class="item-nav-item-name">resolve</span>
+            
+                
+                    <span class="item-nav-item-arguments">(value)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.reject">
+            <span class="item-nav-item-name">reject</span>
+            
+                
+                    <span class="item-nav-item-arguments">(reason)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.then">
+            <span class="item-nav-item-name">then</span>
+            
+                
+                    <span class="item-nav-item-arguments">(resolve, reject)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.catch">
+            <span class="item-nav-item-name">catch</span>
+            
+                
+                    <span class="item-nav-item-arguments">(reject)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.done">
+            <span class="item-nav-item-name">done</span>
+            
+                
+                    <span class="item-nav-item-arguments">(fn, context)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.fail">
+            <span class="item-nav-item-name">fail</span>
+            
+                
+                    <span class="item-nav-item-arguments">(fn, context)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.always">
+            <span class="item-nav-item-name">always</span>
+            
+                
+                    <span class="item-nav-item-arguments">(fn, context)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.fcall">
+            <span class="item-nav-item-name">fcall</span>
+            
+                
+                    <span class="item-nav-item-arguments">(fn, context, args)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.resolve">
+            <span class="item-nav-item-name">resolve</span>
+            
+                
+                    <span class="item-nav-item-arguments">(value)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.reject">
+            <span class="item-nav-item-name">reject</span>
+            
+                
+                    <span class="item-nav-item-arguments">(reason)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.all">
+            <span class="item-nav-item-name">all</span>
+            
+                
+                    <span class="item-nav-item-arguments">(promises)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.when">
+            <span class="item-nav-item-name">when</span>
+            
+                
+                    <span class="item-nav-item-arguments">(promise1, promise2, promiseN)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.allResolved">
+            <span class="item-nav-item-name">allResolved</span>
+            
+                
+                    <span class="item-nav-item-arguments">(promises)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.race">
+            <span class="item-nav-item-name">race</span>
+            
+                
+                    <span class="item-nav-item-arguments">(promises)</span>
+                
+                
+            
+        </a>
+    </li><li class="item-nav-property item-nav-property-method">
+
+        <a href="#Promise.waterfall">
+            <span class="item-nav-item-name">waterfall</span>
+            
+                
+                    <span class="item-nav-item-arguments">(functions)</span>
+                
+                
+            
+        </a>
+    </li>
+</ul>
+    </div>
+    <div class="col-md-10 nopadding item-properties-container">
+        
+    <div class="item-property-group-name">Methods</div>
+    <ul class="item-properties level-0">
+        <li class="item-property item-property-method">
+            <div class="item-header" id="Promise.Promise">
+    
+        <span class="label label-warning item-label">constructor</span>
+    
+    <h4>
+        
+        <span class="item-name">Promise</span>
+        
+            
+                <span class="item-name-arguments">(fn, context)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.Promise/fn">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">fn</span>
+        
+            
+                <span class="item-name-arguments">(resolve, reject)</span>
+            
+            
+            
+            
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            Function that accepts two parameters: resolve and reject functions.
+        
+    </div>
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-2">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.Promise/fn/resolve">
+    
+        
+    
+    <h6>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">resolve</span>
+        
+            
+                <span class="item-name-arguments">(value)</span>
+            
+            
+            
+            
+        
+    </h6>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-3">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.Promise/fn/resolve/value">
+    
+        
+    
+    <h6>
+        
+            <span class="item-type">* </span>
+        
+        <span class="item-name">value</span>
+        
+    </h6>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.Promise/fn/reject">
+    
+        
+    
+    <h6>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">reject</span>
+        
+            
+                <span class="item-name-arguments">(reason)</span>
+            
+            
+            
+            
+        
+    </h6>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-3">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.Promise/fn/reject/reason">
+    
+        
+    
+    <h6>
+        
+            <span class="item-type">* </span>
+        
+        <span class="item-name">reason</span>
+        
+    </h6>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.Promise/context">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">object </span>
+        
+        <span class="item-name">context</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.Promise">
+    
+        <span class="label label-warning item-label">constructor</span>
+    
+    <h4>
+        
+        <span class="item-name">Promise</span>
+        
+            
+                <span class="item-name-arguments">(thenable)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.Promise/thenable">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">Thenable </span>
+        
+        <span class="item-name">thenable</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.Promise">
+    
+        <span class="label label-warning item-label">constructor</span>
+    
+    <h4>
+        
+        <span class="item-name">Promise</span>
+        
+            
+                <span class="item-name-arguments">(value)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.Promise/value">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">* </span>
+        
+        <span class="item-name">value</span>
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            Value to resolve promise with
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.Promise">
+    
+        <span class="label label-warning item-label">constructor</span>
+    
+    <h4>
+        
+        <span class="item-name">Promise</span>
+        
+            
+            
+                <span class="item-name-arguments">()</span>
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.resolve">
+    
+        
+    
+    <h4>
+        
+        <span class="item-name">resolve</span>
+        
+            
+                <span class="item-name-arguments">(value)</span>
+            
+            
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.resolve/value">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">* </span>
+        
+        <span class="item-name">value</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.reject">
+    
+        
+    
+    <h4>
+        
+        <span class="item-name">reject</span>
+        
+            
+                <span class="item-name-arguments">(reason)</span>
+            
+            
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.reject/reason">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">* </span>
+        
+        <span class="item-name">reason</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.then">
+    
+        
+    
+    <h4>
+        
+        <span class="item-name">then</span>
+        
+            
+                <span class="item-name-arguments">(resolve, reject)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+                <small class="item-name-return-descr">new promise</small>
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.then/resolve">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">resolve</span>
+        
+            
+            
+                <span class="item-name-arguments">()</span>
+            
+            
+            
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- called when this promise is resolved; returns new resolve value
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.then/reject">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">reject</span>
+        
+            
+            
+                <span class="item-name-arguments">()</span>
+            
+            
+            
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- called when this promise is rejects; returns new reject reason
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.catch">
+    
+        
+    
+    <h4>
+        
+        <span class="item-name">catch</span>
+        
+            
+                <span class="item-name-arguments">(reject)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+                <small class="item-name-return-descr">new promise</small>
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.catch/reject">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">reject</span>
+        
+            
+            
+                <span class="item-name-arguments">()</span>
+            
+            
+            
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- same as then(null, reject)
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.done">
+    
+        
+    
+    <h4>
+        
+        <span class="item-name">done</span>
+        
+            
+                <span class="item-name-arguments">(fn, context)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+                <small class="item-name-return-descr">same promise</small>
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.done/fn">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">fn</span>
+        
+            
+            
+                <span class="item-name-arguments">()</span>
+            
+            
+            
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- function to call when promise is resolved
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.done/context">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">object </span>
+        
+        <span class="item-name">context</span>
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- function's "this" object
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.fail">
+    
+        
+    
+    <h4>
+        
+        <span class="item-name">fail</span>
+        
+            
+                <span class="item-name-arguments">(fn, context)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+                <small class="item-name-return-descr">same promise</small>
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.fail/fn">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">fn</span>
+        
+            
+            
+                <span class="item-name-arguments">()</span>
+            
+            
+            
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- function to call when promise is rejected.
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.fail/context">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">object </span>
+        
+        <span class="item-name">context</span>
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- function's "this" object
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.always">
+    
+        
+    
+    <h4>
+        
+        <span class="item-name">always</span>
+        
+            
+                <span class="item-name-arguments">(fn, context)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+                <small class="item-name-return-descr">same promise</small>
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.always/fn">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">fn</span>
+        
+            
+            
+                <span class="item-name-arguments">()</span>
+            
+            
+            
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- function to call when promise resolved or rejected
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.always/context">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">object </span>
+        
+        <span class="item-name">context</span>
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- function's "this" object
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.fcall">
+    
+        <span class="label label-warning item-label">static</span>
+    
+    <h4>
+        
+        <span class="item-name">fcall</span>
+        
+            
+                <span class="item-name-arguments">(fn, context, args)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.fcall/fn">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">function </span>
+        
+        <span class="item-name">fn</span>
+        
+            
+            
+                <span class="item-name-arguments">()</span>
+            
+            
+            
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.fcall/context">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">object </span>
+        
+        <span class="item-name">context</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.fcall/args">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">array </span>
+        
+        <span class="item-name">args</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.resolve">
+    
+        <span class="label label-warning item-label">static</span>
+    
+    <h4>
+        
+        <span class="item-name">resolve</span>
+        
+            
+                <span class="item-name-arguments">(value)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.resolve/value">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">* </span>
+        
+        <span class="item-name">value</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.reject">
+    
+        <span class="label label-warning item-label">static</span>
+    
+    <h4>
+        
+        <span class="item-name">reject</span>
+        
+            
+                <span class="item-name-arguments">(reason)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.reject/reason">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">* </span>
+        
+        <span class="item-name">reason</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.all">
+    
+        <span class="label label-warning item-label">static</span>
+    
+    <h4>
+        
+        <span class="item-name">all</span>
+        
+            
+                <span class="item-name-arguments">(promises)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.all/promises">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">array </span>
+        
+        <span class="item-name">promises</span>
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- array of promises or resolve values
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.when">
+    
+        <span class="label label-warning item-label">static</span>
+    
+    <h4>
+        
+        <span class="item-name">when</span>
+        
+            
+                <span class="item-name-arguments">(promise1, promise2, promiseN)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.when/promise1">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">Promise|* </span>
+        
+        <span class="item-name">promise1</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.when/promise2">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">Promise|* </span>
+        
+        <span class="item-name">promise2</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li><li class="item-property item-property-param">
+            <div class="item-header" id="Promise.when/promiseN">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">Promise|* </span>
+        
+        <span class="item-name">promiseN</span>
+        
+    </h5>
+</div>
+
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.allResolved">
+    
+        <span class="label label-warning item-label">static</span>
+    
+    <h4>
+        
+        <span class="item-name">allResolved</span>
+        
+            
+                <span class="item-name-arguments">(promises)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.allResolved/promises">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">array </span>
+        
+        <span class="item-name">promises</span>
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- array of promises or resolve values
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.race">
+    
+        <span class="label label-warning item-label">static</span>
+    
+    <h4>
+        
+        <span class="item-name">race</span>
+        
+            
+                <span class="item-name-arguments">(promises)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.race/promises">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">array </span>
+        
+        <span class="item-name">promises</span>
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- array of promises or resolve values
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li><li class="item-property item-property-method">
+            <div class="item-header" id="Promise.waterfall">
+    
+        <span class="label label-warning item-label">static</span>
+    
+    <h4>
+        
+        <span class="item-name">waterfall</span>
+        
+            
+                <span class="item-name-arguments">(functions)</span>
+            
+            
+            
+                <span class="item-name-returns">&nbsp;-&gt; Promise </span>
+            
+            
+        
+    </h4>
+</div>
+
+
+
+
+
+
+
+    
+    
+    <ul class="item-properties level-1">
+        <li class="item-property item-property-param">
+            <div class="item-header" id="Promise.waterfall/functions">
+    
+        
+    
+    <h5>
+        
+            <span class="item-type">array </span>
+        
+        <span class="item-name">functions</span>
+        
+    </h5>
+</div>
+
+
+    <div class="item-description">
+        
+            -- array of promises or resolve values or functions
+        
+    </div>
+
+
+
+
+
+
+    
+
+        </li>
+    </ul>
+
+
+        </li>
+    </ul>
+
+    </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container"></div>
+</div>
+
+
+</body></html>

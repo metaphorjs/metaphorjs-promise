@@ -6,6 +6,23 @@
     "push": [
         "github"
     ],
+
+    "docs": {
+        "": {
+            "out": "docs",
+            "renderer": "default",
+            "src": [
+                "src/**"
+            ],
+            "includeExternal": false,
+            "data": {
+                "title": "MetaphorJs.Promise",
+                "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
+                "version": "v1.0.7"
+            }
+        }
+    },
+
     "build": {
         "standalone": {
             "wrap": true,
