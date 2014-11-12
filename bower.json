@@ -4,7 +4,7 @@
     "authors": [
         "kuindji <kuindji@gmail.com>"
     ],
-    "description": "Promise A++ implementation",
+    "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
     "main": "dist/metaphorjs.promise.amd.min.js",
     "moduleType": [
         "amd"
@@ -13,7 +13,7 @@
         "promise"
     ],
     "license": "MIT",
-    "homepage": "https://github.com/kuindji/metaphorjs-promise",
+    "homepage": "https://github.com/metaphorjs/metaphorjs-promise",
     "ignore": [
         "node_modules",
         "bower_components",

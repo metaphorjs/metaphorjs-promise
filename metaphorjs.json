@@ -1,5 +1,7 @@
 {
     "version": "1.0.7",
+    "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
+
     "test": {
         "cmd": "mocha"
     },
@@ -17,8 +19,8 @@
             "includeExternal": false,
             "data": {
                 "title": "MetaphorJs.Promise",
-                "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
-                "version": "v1.0.7"
+                "description": "@{description}",
+                "version": "v@{version}"
             }
         }
     },

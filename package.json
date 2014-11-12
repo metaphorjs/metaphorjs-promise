@@ -5,13 +5,13 @@
     "main": "dist/metaphorjs.promise.npm.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/kuindji/metaphorjs-promise.git"
+        "url": "https://github.com/metaphorjs/metaphorjs-promise.git"
     },
     "author": "johann kuindji",
     "license": "MIT",
-    "homepage": "https://github.com/kuindji/metaphorjs-promise",
+    "homepage": "https://github.com/metaphorjs/metaphorjs-promise",
     "bugs": {
-        "url": "https://github.com/kuindji/metaphorjs-promise/issues"
+        "url": "https://github.com/metaphorjs/metaphorjs-promise/issues"
     },
     "directories": {
         "test": "test"
