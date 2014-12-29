@@ -1005,7 +1005,8 @@ var Promise = function(){
 }();
 
 
-MetaphorJs['Promise'] = Promise;
-typeof global != "undefined" ? (global['MetaphorJs'] = MetaphorJs) : (window['MetaphorJs'] = MetaphorJs);
+var MetaphorJsExports = {};
+MetaphorJsExports['Promise'] = Promise;
+typeof global != "undefined" ? (global['MetaphorJs'] = MetaphorJsExports) : (window['MetaphorJs'] = MetaphorJsExports);
 
 }());

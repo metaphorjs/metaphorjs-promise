@@ -31,9 +31,9 @@
             "global": true,
             "target": "dist/metaphorjs.promise.js",
             "files": [
-                "../metaphorjs/src/MetaphorJs.js",
+                "metaphorjs/src/MetaphorJs.js",
                 [
-                    "src/metaphorjs.promise.js",
+                    "src/lib/Promise.js",
                     {
                         "as": "Promise"
                     }
@@ -48,7 +48,7 @@
             "compile": false,
             "files": [
                 [
-                    "src/metaphorjs.promise.js",
+                    "src/lib/Promise.js",
                     {
                         "keepExports": true
                     }
@@ -59,7 +59,7 @@
             "target": "dist/metaphorjs.promise.amd.js",
             "files": [
                 [
-                    "src/metaphorjs.promise.js",
+                    "src/lib/Promise.js",
                     {
                         "returnExports": true
                     }
