@@ -69,18 +69,20 @@ var error = (function(){
         var i, l;
 
         for (i = 0, l = listeners.length; i < l; i++) {
-            listeners[i][0].call(listeners[i][1], e);
+            if (listeners[i][0].call(listeners[i][1], e) === false) {
+                return;
+            }
         }
 
         var stack = (e ? e.stack : null) || (new Error).stack;
 
-        if (typeof console != strUndef && console.log) {
+        if (typeof console != strUndef && console.error) {
             async(function(){
                 if (e) {
-                    console.log(e);
+                    console.error(e);
                 }
                 if (stack) {
-                    console.log(stack);
+                    console.error(stack);
                 }
             });
         }
@@ -613,13 +615,23 @@ return function(){
         /**
          * @param {Function} resolve -- called when this promise is resolved; returns new resolve value
          * @param {Function} reject -- called when this promise is rejects; returns new reject reason
+         * @param {object} context -- resolve's and reject's functions "this" object
          * @returns {Promise} new promise
          */
-        then: function(resolve, reject) {
+        then: function(resolve, reject, context) {
 
             var self            = this,
                 promise         = new Promise,
                 state           = self._state;
+
+            if (context) {
+                if (resolve) {
+                    resolve = bind(resolve, context);
+                }
+                if (reject) {
+                    reject = bind(reject, context);
+                }
+            }
 
             if (state == PENDING || self._wait != 0) {
 

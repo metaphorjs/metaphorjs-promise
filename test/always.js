@@ -1,6 +1,8 @@
 
+
 var assert = require("assert"),
-    Promise = require("../src/metaphorjs.promise.js");
+    Promise = require("../dist/metaphorjs.promise.npm.js");
+
 
 describe("Promise.always", function(){
 

@@ -4,7 +4,7 @@ var bind = require("../../metaphorjs/src/func/bind.js");
 
 describe("Promises/A+ Tests", function() {
 
-    var Promise = require("../src/metaphorjs.promise.js");
+    var Promise = require("../dist/metaphorjs.promise.npm.js");
 
     var adapter = {
         deferred: function() {

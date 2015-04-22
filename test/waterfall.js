@@ -1,10 +1,11 @@
 
 var assert = require("assert");
 
+
 describe("Promise.waterfall", function(){
 
 
-    var Promise = require("../src/metaphorjs.promise.js");
+    var Promise = require("../dist/metaphorjs.promise.npm.js");
 
 
     it("must run functions in order they specified", function(done){
