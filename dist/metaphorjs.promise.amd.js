@@ -462,6 +462,20 @@ return function(){
             return this._state == REJECTED;
         },
 
+        hasListeners: function() {
+            var self = this,
+                ls  = [self._fulfills, self._rejects, self._dones, self._fails],
+                i, l;
+
+            for (i = 0, l = ls.length; i < l; i++) {
+                if (ls[i] && ls[i].length) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
         _cleanup: function() {
             var self    = this;
 
