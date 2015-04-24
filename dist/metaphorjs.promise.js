@@ -2,10 +2,7 @@
 "use strict";
 
 
-var MetaphorJs = {
 
-
-};
 
 
 function isFunction(value) {
@@ -1048,6 +1045,46 @@ var Promise = function(){
         }
 
         return promise;
+    };
+
+    Promise.forEach = function(items, fn, context, allResolved) {
+
+        var left = items.slice(),
+            p = new Promise,
+            values = [],
+            i = 0;
+
+        var next = function() {
+
+            if (!left.length) {
+                p.resolve(values);
+                return;
+            }
+
+            var item = left.shift(),
+                index = i;
+
+            i++;
+
+            Promise.fcall(fn, context, [item, index])
+                .done(function(result){
+                    values.push(result);
+                    next();
+                })
+                .fail(function(reason){
+                    if (allResolved) {
+                        p.reject(reason);
+                    }
+                    else {
+                        values.push(null);
+                        next();
+                    }
+                });
+        };
+
+        next();
+
+        return p;
     };
 
     Promise.counter = function(cnt) {
