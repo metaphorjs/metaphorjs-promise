@@ -17,7 +17,7 @@ module.exports = function(){
         qRunning    = false,
 
 
-        nextTick    = typeof process != strUndef ?
+        nextTick    = typeof process !== strUndef ?
                         process.nextTick :
                         function(fn) {
                             setTimeout(fn, 0);
@@ -188,19 +188,19 @@ module.exports = function(){
         _triggered: false,
 
         isPending: function() {
-            return this._state == PENDING;
+            return this._state === PENDING;
         },
 
         isFulfilled: function() {
-            return this._state == FULFILLED;
+            return this._state === FULFILLED;
         },
 
         isResolved: function() {
-            return this._state == FULFILLED;
+            return this._state === FULFILLED;
         },
 
         isRejected: function() {
-            return this._state == REJECTED;
+            return this._state === REJECTED;
         },
 
         hasListeners: function() {
@@ -231,7 +231,7 @@ module.exports = function(){
             var self    = this,
                 then;
 
-            if (self._state != PENDING) {
+            if (self._state !== PENDING) {
                 return;
             }
 
@@ -256,7 +256,7 @@ module.exports = function(){
                 }
             }
             catch (thrownError) {
-                if (self._state == PENDING) {
+                if (self._state === PENDING) {
                     self._doReject(thrownError);
                 }
                 return;
@@ -289,7 +289,7 @@ module.exports = function(){
             self._value = value;
             self._state = FULFILLED;
 
-            if (self._wait == 0) {
+            if (self._wait === 0) {
                 self._callResolveHandlers();
             }
         },
@@ -339,7 +339,7 @@ module.exports = function(){
             self._state     = REJECTED;
             self._reason    = reason;
 
-            if (self._wait == 0) {
+            if (self._wait === 0) {
                 self._callRejectHandlers();
             }
         },
@@ -388,7 +388,7 @@ module.exports = function(){
                 }
             }
 
-            if (state == PENDING || self._wait != 0) {
+            if (state === PENDING || self._wait !== 0) {
 
                 if (resolve && isFunction(resolve)) {
                     self._fulfills.push([wrapper(resolve, promise), null]);
@@ -404,7 +404,7 @@ module.exports = function(){
                     self._rejects.push([promise.reject, promise]);
                 }
             }
-            else if (state == FULFILLED) {
+            else if (state === FULFILLED) {
 
                 if (resolve && isFunction(resolve)) {
                     next(wrapper(resolve, promise), null, [self._value]);
@@ -413,7 +413,7 @@ module.exports = function(){
                     promise.resolve(self._value);
                 }
             }
-            else if (state == REJECTED) {
+            else if (state === REJECTED) {
                 if (reject && isFunction(reject)) {
                     next(wrapper(reject, promise), null, [self._reason]);
                 }
@@ -458,7 +458,7 @@ module.exports = function(){
             var self    = this,
                 state   = self._state;
 
-            if (state == FULFILLED && self._wait == 0) {
+            if (state === FULFILLED && self._wait === 0) {
                 try {
                     fn.call(context || null, self._value);
                 }
@@ -466,7 +466,7 @@ module.exports = function(){
                     error(thrown);
                 }
             }
-            else if (state == PENDING) {
+            else if (state === PENDING) {
                 self._dones.push([fn, context]);
             }
 
@@ -499,7 +499,7 @@ module.exports = function(){
             var self    = this,
                 state   = self._state;
 
-            if (state == REJECTED && self._wait == 0) {
+            if (state === REJECTED && self._wait === 0) {
                 try {
                     fn.call(context || null, self._reason);
                 }
@@ -507,7 +507,7 @@ module.exports = function(){
                     error(thrown);
                 }
             }
-            else if (state == PENDING) {
+            else if (state === PENDING) {
                 self._fails.push([fn, context]);
             }
 
@@ -548,8 +548,8 @@ module.exports = function(){
 
                 var done = function() {
                     self._wait--;
-                    if (self._wait == 0 && self._state != PENDING) {
-                        self._state == FULFILLED ?
+                    if (self._wait === 0 && self._state !== PENDING) {
+                        self._state === FULFILLED ?
                             self._callResolveHandlers() :
                             self._callRejectHandlers();
                     }
@@ -624,7 +624,7 @@ module.exports = function(){
                 values[inx] = value;
                 cnt--;
 
-                if (cnt == 0) {
+                if (cnt === 0) {
                     p.resolve(values);
                 }
             };
@@ -690,7 +690,7 @@ module.exports = function(){
             },
             proceed = function() {
                 cnt--;
-                if (cnt == 0) {
+                if (cnt === 0) {
                     p.resolve(values);
                 }
             };
@@ -829,7 +829,7 @@ module.exports = function(){
 
         promise.countdown = function() {
             cnt--;
-            if (cnt == 0) {
+            if (cnt === 0) {
                 promise.resolve();
             }
         };
