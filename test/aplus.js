@@ -1,6 +1,6 @@
 
 
-var bind = require("../../metaphorjs/src/func/bind.js");
+var bind = require("metaphorjs/src/func/bind.js");
 
 describe("Promises/A+ Tests", function() {
 
