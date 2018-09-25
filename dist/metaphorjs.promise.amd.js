@@ -1,4 +1,6 @@
 define("metaphorjs-promise", function() {
+/* BUNDLE START 0Y3 */
+"use strict";
 
 function isFunction(value) {
     return typeof value == 'function';
@@ -77,14 +79,14 @@ var error = (function(){
         var stack = (e ? e.stack : null) || (new Error).stack;
 
         if (typeof console != strUndef && console.error) {
-            async(function(){
+            //async(function(){
                 if (e) {
                     console.error(e);
                 }
                 if (stack) {
                     console.error(stack);
                 }
-            });
+            //});
         }
         else {
             throw e;
@@ -135,7 +137,7 @@ var varType = function(){
     };
 
 
-    /**
+    /*
      * 'string': 0,
      * 'number': 1,
      * 'boolean': 2,
@@ -151,6 +153,9 @@ var varType = function(){
      * @param {*} value
      * @returns {number}
      */
+
+
+
     return function varType(val) {
 
         if (!val) {
@@ -168,7 +173,7 @@ var varType = function(){
             return -1;
         }
 
-        if (num == 1 && isNaN(val)) {
+        if (num === 1 && isNaN(val)) {
             return 8;
         }
 
@@ -266,7 +271,7 @@ var extend = function(){
 
 
 
-return function(){
+var Promise = function(){
 
     var PENDING     = 0,
         FULFILLED   = 1,
@@ -276,7 +281,7 @@ return function(){
         qRunning    = false,
 
 
-        nextTick    = typeof process != strUndef ?
+        nextTick    = typeof process !== strUndef ?
                         process.nextTick :
                         function(fn) {
                             setTimeout(fn, 0);
@@ -302,6 +307,7 @@ return function(){
 
         /**
          * add to execution queue
+         * @function
          * @param {Function} fn
          * @param {Object} scope
          * @param {[]} args
@@ -324,12 +330,13 @@ return function(){
          * fn(promise1 resolve value) -> new value
          * promise2.resolve(new value)
          *
+         * @function
          * @param {Function} fn
          * @param {Promise} promise
          * @returns {Function}
          * @ignore
          */
-        wrapper     = function(fn, promise) {
+        resolveWrapper     = function(fn, promise) {
             return function(value) {
                 try {
                     promise.resolve(fn(value));
@@ -345,11 +352,11 @@ return function(){
      * @class Promise
      */
 
-
     /**
+     * @constructor 
      * @method Promise
      * @param {Function} fn {
-     *  @description Function that accepts two parameters: resolve and reject functions.
+     *  @description Constructor accepts two parameters: resolve and reject functions.
      *  @param {function} resolve {
      *      @param {*} value
      *  }
@@ -359,28 +366,26 @@ return function(){
      * }
      * @param {Object} context
      * @returns {Promise}
-     * @constructor
      */
 
     /**
-     * @method Promise
+     * @constructor 
+     * @method Promise 
      * @param {Thenable} thenable
      * @returns {Promise}
-     * @constructor
      */
 
     /**
-     * @method Promise
+     * @constructor 
+     * @method Promise 
      * @param {*} value Value to resolve promise with
      * @returns {Promise}
-     * @constructor
      */
 
-
     /**
-     * @method Promise
+     * @constructor 
+     * @method Promise 
      * @returns {Promise}
-     * @constructor
      */
     var Promise = function(fn, context) {
 
@@ -446,22 +451,47 @@ return function(){
 
         _triggered: false,
 
+        /**
+         * Is promise still pending (as opposed to resolved or rejected)
+         * @method
+         * @returns {boolean}
+         */
         isPending: function() {
-            return this._state == PENDING;
+            return this._state === PENDING;
         },
 
+        /**
+         * Is the promise fulfilled. Same as isResolved()
+         * @method
+         * @returns {boolean}
+         */
         isFulfilled: function() {
-            return this._state == FULFILLED;
+            return this._state === FULFILLED;
         },
 
+        /**
+         * Is the promise resolved. Same as isFulfilled()
+         * @method
+         * @returns {boolean}
+         */
         isResolved: function() {
-            return this._state == FULFILLED;
+            return this._state === FULFILLED;
         },
 
+        /**
+         * Is the promise rejected
+         * @method
+         * @returns {boolean}
+         */
         isRejected: function() {
-            return this._state == REJECTED;
+            return this._state === REJECTED;
         },
 
+        /**
+         * Did someone subscribed to this promise
+         * @method
+         * @returns {boolean}
+         */
         hasListeners: function() {
             var self = this,
                 ls  = [self._fulfills, self._rejects, self._dones, self._fails],
@@ -485,12 +515,12 @@ return function(){
             self._fails = null;
         },
 
-        _processValue: function(value, cb) {
+        _processValue: function(value, cb, allowThenanle) {
 
             var self    = this,
                 then;
 
-            if (self._state != PENDING) {
+            if (self._state !== PENDING) {
                 return;
             }
 
@@ -499,26 +529,28 @@ return function(){
                 return;
             }
 
-            try {
-                if (then = isThenable(value)) {
-                    if (value instanceof Promise) {
-                        value.then(
-                            bind(self._processResolveValue, self),
-                            bind(self._processRejectReason, self));
+            if (allowThenanle) {
+                try {
+                    if (then = isThenable(value)) {
+                        if (value instanceof Promise) {
+                            value.then(
+                                bind(self._processResolveValue, self),
+                                bind(self._processRejectReason, self));
+                        }
+                        else {
+                            (new Promise(then, value)).then(
+                                bind(self._processResolveValue, self),
+                                bind(self._processRejectReason, self));
+                        }
+                        return;
                     }
-                    else {
-                        (new Promise(then, value)).then(
-                            bind(self._processResolveValue, self),
-                            bind(self._processRejectReason, self));
+                }
+                catch (thrownError) {
+                    if (self._state === PENDING) {
+                        self._doReject(thrownError);
                     }
                     return;
                 }
-            }
-            catch (thrownError) {
-                if (self._state == PENDING) {
-                    self._doReject(thrownError);
-                }
-                return;
             }
 
             cb.call(self, value);
@@ -548,16 +580,18 @@ return function(){
             self._value = value;
             self._state = FULFILLED;
 
-            if (self._wait == 0) {
+            if (self._wait === 0) {
                 self._callResolveHandlers();
             }
         },
 
         _processResolveValue: function(value) {
-            this._processValue(value, this._doResolve);
+            this._processValue(value, this._doResolve, true);
         },
 
         /**
+         * Resolve the promise
+         * @method
          * @param {*} value
          */
         resolve: function(value) {
@@ -598,17 +632,19 @@ return function(){
             self._state     = REJECTED;
             self._reason    = reason;
 
-            if (self._wait == 0) {
+            if (self._wait === 0) {
                 self._callRejectHandlers();
             }
         },
 
 
         _processRejectReason: function(reason) {
-            this._processValue(reason, this._doReject);
+            this._processValue(reason, this._doReject, false);
         },
 
         /**
+         * Reject the promise
+         * @method
          * @param {*} reason
          */
         reject: function(reason) {
@@ -627,8 +663,12 @@ return function(){
         },
 
         /**
-         * @param {Function} resolve -- called when this promise is resolved; returns new resolve value
-         * @param {Function} reject -- called when this promise is rejects; returns new reject reason
+         * @method
+         * @async
+         * @param {Function} resolve -- called when this promise is resolved; 
+         *  returns new resolve value or promise
+         * @param {Function} reject -- called when this promise is rejected; 
+         *  returns new reject reason
          * @param {object} context -- resolve's and reject's functions "this" object
          * @returns {Promise} new promise
          */
@@ -647,34 +687,34 @@ return function(){
                 }
             }
 
-            if (state == PENDING || self._wait != 0) {
+            if (state === PENDING || self._wait !== 0) {
 
                 if (resolve && isFunction(resolve)) {
-                    self._fulfills.push([wrapper(resolve, promise), null]);
+                    self._fulfills.push([resolveWrapper(resolve, promise), null]);
                 }
                 else {
                     self._fulfills.push([promise.resolve, promise])
                 }
 
                 if (reject && isFunction(reject)) {
-                    self._rejects.push([wrapper(reject, promise), null]);
+                    self._rejects.push([resolveWrapper(reject, promise), null]);
                 }
                 else {
                     self._rejects.push([promise.reject, promise]);
                 }
             }
-            else if (state == FULFILLED) {
+            else if (state === FULFILLED) {
 
                 if (resolve && isFunction(resolve)) {
-                    next(wrapper(resolve, promise), null, [self._value]);
+                    next(resolveWrapper(resolve, promise), null, [self._value]);
                 }
                 else {
                     promise.resolve(self._value);
                 }
             }
-            else if (state == REJECTED) {
+            else if (state === REJECTED) {
                 if (reject && isFunction(reject)) {
-                    next(wrapper(reject, promise), null, [self._reason]);
+                    next(resolveWrapper(reject, promise), null, [self._reason]);
                 }
                 else {
                     promise.reject(self._reason);
@@ -685,6 +725,9 @@ return function(){
         },
 
         /**
+         * Add reject listener.
+         * @method
+         * @async
          * @param {Function} reject -- same as then(null, reject)
          * @returns {Promise} new promise
          */
@@ -709,6 +752,9 @@ return function(){
         },
 
         /**
+         * Add resolve listener
+         * @method
+         * @sync
          * @param {Function} fn -- function to call when promise is resolved
          * @param {Object} context -- function's "this" object
          * @returns {Promise} same promise
@@ -717,7 +763,7 @@ return function(){
             var self    = this,
                 state   = self._state;
 
-            if (state == FULFILLED && self._wait == 0) {
+            if (state === FULFILLED && self._wait === 0) {
                 try {
                     fn.call(context || null, self._value);
                 }
@@ -725,7 +771,7 @@ return function(){
                     error(thrown);
                 }
             }
-            else if (state == PENDING) {
+            else if (state === PENDING) {
                 self._dones.push([fn, context]);
             }
 
@@ -749,6 +795,9 @@ return function(){
         },
 
         /**
+         * Add reject listener
+         * @method
+         * @sync
          * @param {Function} fn -- function to call when promise is rejected.
          * @param {Object} context -- function's "this" object
          * @returns {Promise} same promise
@@ -758,7 +807,7 @@ return function(){
             var self    = this,
                 state   = self._state;
 
-            if (state == REJECTED && self._wait == 0) {
+            if (state === REJECTED && self._wait === 0) {
                 try {
                     fn.call(context || null, self._reason);
                 }
@@ -766,7 +815,7 @@ return function(){
                     error(thrown);
                 }
             }
-            else if (state == PENDING) {
+            else if (state === PENDING) {
                 self._fails.push([fn, context]);
             }
 
@@ -774,6 +823,9 @@ return function(){
         },
 
         /**
+         * Add both resolve and reject listener
+         * @method
+         * @sync
          * @param {Function} fn -- function to call when promise resolved or rejected
          * @param {Object} context -- function's "this" object
          * @return {Promise} same promise
@@ -785,6 +837,8 @@ return function(){
         },
 
         /**
+         * Get a thenable object
+         * @method
          * @returns {object} then: function, done: function, fail: function, always: function
          */
         promise: function() {
@@ -793,10 +847,17 @@ return function(){
                 then: bind(self.then, self),
                 done: bind(self.done, self),
                 fail: bind(self.fail, self),
-                always: bind(self.always, self)
+                always: bind(self.always, self),
+                "catch": bind(self['catch'], self)
             };
         },
 
+        /**
+         * Resolve this promise after <code>value</code> promise is resolved.
+         * @method
+         * @param {*|Promise} value
+         * @returns {Promise} self
+         */
         after: function(value) {
 
             var self = this;
@@ -807,8 +868,8 @@ return function(){
 
                 var done = function() {
                     self._wait--;
-                    if (self._wait == 0 && self._state != PENDING) {
-                        self._state == FULFILLED ?
+                    if (self._wait === 0 && self._state !== PENDING) {
+                        self._state === FULFILLED ?
                             self._callResolveHandlers() :
                             self._callRejectHandlers();
                     }
@@ -828,20 +889,26 @@ return function(){
 
 
     /**
+     * Call function <code>fn</code> with given args in given context
+     * and use its return value as resolve value for a new promise.
+     * Then return this promise.
+     * @static
+     * @method
      * @param {function} fn
      * @param {object} context
      * @param {[]} args
      * @returns {Promise}
-     * @static
      */
     Promise.fcall = function(fn, context, args) {
         return Promise.resolve(fn.apply(context, args || []));
     };
 
     /**
+     * Create new promise and resolve it with given value
+     * @static
+     * @method
      * @param {*} value
      * @returns {Promise}
-     * @static
      */
     Promise.resolve = function(value) {
         var p = new Promise;
@@ -851,9 +918,11 @@ return function(){
 
 
     /**
+     * Create new promise and reject it with given reason
+     * @static
+     * @method
      * @param {*} reason
      * @returns {Promise}
-     * @static
      */
     Promise.reject = function(reason) {
         var p = new Promise;
@@ -863,9 +932,13 @@ return function(){
 
 
     /**
+     * Take a list of promises or values and once all promises are resolved,
+     * create a new promise and resolve it with a list of final values.<br>
+     * If one of the promises is rejected, it will reject the returned promise.
+     * @static
+     * @method
      * @param {[]} promises -- array of promises or resolve values
      * @returns {Promise}
-     * @static
      */
     Promise.all = function(promises) {
 
@@ -883,7 +956,7 @@ return function(){
                 values[inx] = value;
                 cnt--;
 
-                if (cnt == 0) {
+                if (cnt === 0) {
                     p.resolve(values);
                 }
             };
@@ -916,20 +989,25 @@ return function(){
     };
 
     /**
+     * Same as <code>all()</code> but it treats arguments as list of values.
+     * @static
+     * @method
      * @param {Promise|*} promise1
      * @param {Promise|*} promise2
      * @param {Promise|*} promiseN
      * @returns {Promise}
-     * @static
      */
     Promise.when = function() {
         return Promise.all(arguments);
     };
 
     /**
+     * Same as <code>all()</code> but the resulting promise
+     * will not be rejected if ones of the passed promises is rejected.
+     * @static
+     * @method
      * @param {[]} promises -- array of promises or resolve values
      * @returns {Promise}
-     * @static
      */
     Promise.allResolved = function(promises) {
 
@@ -949,7 +1027,7 @@ return function(){
             },
             proceed = function() {
                 cnt--;
-                if (cnt == 0) {
+                if (cnt === 0) {
                     p.resolve(values);
                 }
             };
@@ -972,9 +1050,12 @@ return function(){
     };
 
     /**
+     * Given the list of promises or values it will return a new promise
+     * and resolve it with the first resolved value.
+     * @static
+     * @method
      * @param {[]} promises -- array of promises or resolve values
      * @returns {Promise}
-     * @static
      */
     Promise.race = function(promises) {
 
@@ -1009,9 +1090,12 @@ return function(){
     };
 
     /**
+     * Takes a list of async functions and executes 
+     * them in given order consequentially
+     * @static
+     * @method
      * @param {[]} functions -- array of promises or resolve values or functions
      * @returns {Promise}
-     * @static
      */
     Promise.waterfall = function(functions) {
 
@@ -1042,6 +1126,21 @@ return function(){
         return promise;
     };
 
+    /**
+     * Works like Array.forEach but it expects passed function to 
+     * return a Promise.
+     * @static
+     * @method 
+     * @param {array} items 
+     * @param {function} fn {
+     *  @param {*} value
+     *  @param {int} index
+     *  @returns {Promise|*}
+     * }
+     * @param {object} context 
+     * @param {boolean} allResolved if true, the resulting promise
+     * will fail if one of the returned promises fails.
+     */
     Promise.forEach = function(items, fn, context, allResolved) {
 
         var left = items.slice(),
@@ -1082,13 +1181,22 @@ return function(){
         return p;
     };
 
+    /**
+     * Returns a promise with additional <code>countdown</code>
+     * method. Call this method <code>cnt</code> times and
+     * the promise will get resolved.
+     * @static
+     * @method
+     * @param {int} cnt 
+     * @returns {Promise}
+     */
     Promise.counter = function(cnt) {
 
         var promise     = new Promise;
 
         promise.countdown = function() {
             cnt--;
-            if (cnt == 0) {
+            if (cnt === 0) {
                 promise.resolve();
             }
         };
@@ -1100,6 +1208,7 @@ return function(){
 }();
 
 
-
+return Promise;
 });
 
+/* BUNDLE END 0Y3 */
