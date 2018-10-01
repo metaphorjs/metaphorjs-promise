@@ -1,15 +1,15 @@
-var Promise = require("../lib/Promise.js"),
-    MetaphorJs = require("metaphorjs/src/MetaphorJs.js");
+var lib_Promise = require("../lib/Promise.js"),
+    MetaphorJs = require("metaphorjs-shared/src/MetaphorJs.js");
 
 /**
- * @mixin Promise
+ * @mixin MetaphorJs.mixin.Promise
  */
 module.exports = MetaphorJs.mixin.Promise = {
 
     $$promise: null,
 
     $beforeInit: function() {
-        this.$$promise = new Promise;
+        this.$$promise = new lib_Promise;
     },
 
     /**

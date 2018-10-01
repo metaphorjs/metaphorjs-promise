@@ -11,7 +11,7 @@
         "renderer": {
             "type": "default",
             "data": {
-                "title": "MetaphorJs.Promise",
+                "title": "MetaphorJs.lib.Promise",
                 "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
                 "version": "1.1.0"
             }
@@ -26,14 +26,13 @@
         "standalone": {
             "target": "dist/metaphorjs.promise.js",
             "files": [
-                ["src/lib/Promise.js", {"as": "*"}]
+                "src/lib/Promise.js"
             ],
             "options": {
                 "wrap": true,
-                "global": true,
-                "expose": [
-                    "Promise"
-                ]
+                "global": {
+                    "expose": "MetaphorJs"
+                }
             }  
         },
         "standalone-min": {
@@ -45,21 +44,21 @@
 
             "target": "dist/metaphorjs.promise.npm.js",
             "files": [
-                ["src/lib/Promise.js", {"as": "*"}]
+                "src/lib/Promise.js"
             ],
             "options": {
-                "exports": "Promise"
+                "exports": "MetaphorJs.lib.Promise"
             }
         },
         "amd": {
             "target": "dist/metaphorjs.promise.amd.js",
             "files": [
-                ["src/lib/Promise.js", {"as": "*"}]
+                "src/lib/Promise.js"
             ],
             "options": {
                 "amd": {
                     "name": "metaphorjs-promise",
-                    "return": "Promise"
+                    "return": "MetaphorJs.lib.Promise"
                 }
             }
         },

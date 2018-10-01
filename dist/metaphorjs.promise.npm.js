@@ -1,6 +1,12 @@
-/* BUNDLE START 0MR */
+/* BUNDLE START 0MZ */
 "use strict";
 
+/**
+ * Check if given value is a function
+ * @function isFunction
+ * @param {*} value 
+ * @returns {boolean}
+ */
 function isFunction(value) {
     return typeof value == 'function';
 };
@@ -8,9 +14,10 @@ function isFunction(value) {
 
 
 /**
- * Returns 'then' function or false
+ * Checks if given value is a thenable (a Promise)
+ * @function isThenable
  * @param {*} any
- * @returns {Function|boolean}
+ * @returns {boolean|function}
  */
 function isThenable(any) {
 
@@ -20,47 +27,39 @@ function isThenable(any) {
     if (!any) { //  || !any.then
         return false;
     }
-    var then, t;
+    
+    var t;
 
     //if (!any || (!isObject(any) && !isFunction(any))) {
     if (((t = typeof any) != "object" && t != "function")) {
         return false;
     }
-    return isFunction((then = any.then)) ?
-           then : false;
+
+    var then = any.then;
+
+    return isFunction(then) ? then : false;
 };
 
 /**
+ * Bind function to context (Function.bind wrapper)
+ * @function bind
  * @param {Function} fn
  * @param {*} context
  */
-var bind = Function.prototype.bind ?
-              function(fn, context){
-                  return fn.bind(context);
-              } :
-              function(fn, context) {
-                  return function() {
-                      return fn.apply(context, arguments);
-                  };
-              };
-
-
-
-var strUndef = "undefined";
-/**
- * @param {Function} fn
- * @param {Object} context
- * @param {[]} args
- * @param {number} timeout
- */
-function async(fn, context, args, timeout) {
-    return setTimeout(function(){
-        fn.apply(context, args || []);
-    }, timeout || 0);
+function bind(fn, context){
+    return fn.bind(context);
 };
 
+var strUndef = "undefined";
 
 
+
+/**
+ * Log thrown error to console (in debug mode) and 
+ * call all error listeners
+ * @function error
+ * @param {Error} e 
+ */
 var error = (function(){
 
     var listeners = [];
@@ -70,33 +69,33 @@ var error = (function(){
         var i, l;
 
         for (i = 0, l = listeners.length; i < l; i++) {
-            if (listeners[i][0].call(listeners[i][1], e) === false) {
-                return;
-            }
+            listeners[i][0].call(listeners[i][1], e)
         }
 
-        var stack = (e ? e.stack : null) || (new Error).stack;
-
+        /*DEBUG-START*/
         if (typeof console != strUndef && console.error) {
-            //async(function(){
-                if (e) {
-                    console.error(e);
-                }
-                if (stack) {
-                    console.error(stack);
-                }
-            //});
+            console.error(e);
         }
-        else {
-            throw e;
-        }
+        /*DEBUG-END*/
     };
 
+    /**
+     * Subscribe to all errors
+     * @method on
+     * @param {function} fn 
+     * @param {object} context 
+     */
     error.on = function(fn, context) {
         error.un(fn, context);
         listeners.push([fn, context]);
     };
 
+    /**
+     * Unsubscribe from all errors
+     * @method un
+     * @param {function} fn 
+     * @param {object} context 
+     */
     error.un = function(fn, context) {
         var i, l;
         for (i = 0, l = listeners.length; i < l; i++) {
@@ -113,16 +112,48 @@ var error = (function(){
 
 
 
-var slice = Array.prototype.slice;
+var MetaphorJs = {
+    plugin: {},
+    mixin: {},
+    lib: {}
+};
 
-var toString = Object.prototype.toString;
 
 var undf = undefined;
 
 
 
+/**
+ * Transform anything into array
+ * @function toArray
+ * @param {*} list
+ * @returns {array}
+ */
+function toArray(list) {
+    if (list && !list.length != undf && list !== ""+list) {
+        for(var a = [], i =- 1, l = list.length>>>0; ++i !== l; a[i] = list[i]){}
+        return a;
+    }
+    else if (list) {
+        return [list];
+    }
+    else {
+        return [];
+    }
+};
 
-var varType = function(){
+/**
+ * Convert anything to string
+ * @function toString
+ * @param {*} value
+ * @returns {string}
+ */
+var toString = Object.prototype.toString;
+
+
+
+
+var _varType = function(){
 
     var types = {
         '[object String]': 0,
@@ -155,7 +186,7 @@ var varType = function(){
 
 
 
-    return function varType(val) {
+    return function _varType(val) {
 
         if (!val) {
             if (val === null) {
@@ -183,94 +214,103 @@ var varType = function(){
 
 
 
+/**
+ * Check if given value is plain object
+ * @function isPlainObject
+ * @param {*} value 
+ * @returns {boolean}
+ */
 function isPlainObject(value) {
     // IE < 9 returns [object Object] from toString(htmlElement)
     return typeof value == "object" &&
-           varType(value) === 3 &&
+           _varType(value) === 3 &&
             !value.nodeType &&
             value.constructor === Object;
-
 };
 
+/**
+ * Check if given value is a boolean value
+ * @function isBool
+ * @param {*} value 
+ * @returns {boolean}
+ */
 function isBool(value) {
     return value === true || value === false;
 };
 
 
+/**
+ * Copy properties from one object to another
+ * @function extend
+ * @param {Object} dst
+ * @param {Object} src
+ * @param {Object} src2 ... srcN
+ * @param {boolean} override {
+ *  Override already existing keys 
+ *  @default false
+ * }
+ * @param {boolean} deep {
+ *  Do not copy objects by link, deep copy by value
+ *  @default false
+ * }
+ * @returns {object}
+ */
+function extend() {
 
+    var override    = false,
+        deep        = false,
+        args        = toArray(arguments),
+        dst         = args.shift(),
+        src,
+        k,
+        value;
 
-var extend = function(){
+    if (isBool(args[args.length - 1])) {
+        override    = args.pop();
+    }
+    if (isBool(args[args.length - 1])) {
+        deep        = override;
+        override    = args.pop();
+    }
 
-    /**
-     * @param {Object} dst
-     * @param {Object} src
-     * @param {Object} src2 ... srcN
-     * @param {boolean} override = false
-     * @param {boolean} deep = false
-     * @returns {object}
-     */
-    var extend = function extend() {
+    while (src = args.shift()) {
+        for (k in src) {
 
+            if (src.hasOwnProperty(k) && (value = src[k]) !== undf) {
 
-        var override    = false,
-            deep        = false,
-            args        = slice.call(arguments),
-            dst         = args.shift(),
-            src,
-            k,
-            value;
-
-        if (isBool(args[args.length - 1])) {
-            override    = args.pop();
-        }
-        if (isBool(args[args.length - 1])) {
-            deep        = override;
-            override    = args.pop();
-        }
-
-        while (args.length) {
-            // IE < 9 fix: check for hasOwnProperty presence
-            if ((src = args.shift()) && src.hasOwnProperty) {
-                for (k in src) {
-
-                    if (src.hasOwnProperty(k) && (value = src[k]) !== undf) {
-
-                        if (deep) {
-                            if (dst[k] && isPlainObject(dst[k]) && isPlainObject(value)) {
-                                extend(dst[k], value, override, deep);
+                if (deep) {
+                    if (dst[k] && isPlainObject(dst[k]) && isPlainObject(value)) {
+                        extend(dst[k], value, override, deep);
+                    }
+                    else {
+                        if (override === true || dst[k] == undf) { // == checks for null and undefined
+                            if (isPlainObject(value)) {
+                                dst[k] = {};
+                                extend(dst[k], value, override, true);
                             }
                             else {
-                                if (override === true || dst[k] == undf) { // == checks for null and undefined
-                                    if (isPlainObject(value)) {
-                                        dst[k] = {};
-                                        extend(dst[k], value, override, true);
-                                    }
-                                    else {
-                                        dst[k] = value;
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            if (override === true || dst[k] == undf) {
                                 dst[k] = value;
                             }
                         }
                     }
                 }
+                else {
+                    if (override === true || dst[k] == undf) {
+                        dst[k] = value;
+                    }
+                }
             }
         }
+    }
 
-        return dst;
-    };
-
-    return extend;
-}();
+    return dst;
+};
 
 
 
 
-var Promise = function(){
+
+MetaphorJs.lib.Promise = function(){
 
     var PENDING     = 0,
         FULFILLED   = 1,
@@ -278,7 +318,6 @@ var Promise = function(){
 
         queue       = [],
         qRunning    = false,
-
 
         nextTick    = typeof process !== strUndef ?
                         process.nextTick :
@@ -348,7 +387,7 @@ var Promise = function(){
 
 
     /**
-     * @class Promise
+     * @class MetaphorJs.lib.Promise
      */
 
     /**
@@ -534,12 +573,14 @@ var Promise = function(){
                         if (value instanceof Promise) {
                             value.then(
                                 bind(self._processResolveValue, self),
-                                bind(self._processRejectReason, self));
+                                bind(self._processRejectReason, self)
+                            );
                         }
                         else {
                             (new Promise(then, value)).then(
                                 bind(self._processResolveValue, self),
-                                bind(self._processRejectReason, self));
+                                bind(self._processRejectReason, self)
+                            );
                         }
                         return;
                     }
@@ -1207,5 +1248,5 @@ var Promise = function(){
 }();
 
 
-module.exports = Promise;
-/* BUNDLE END 0MR */
+module.exports = MetaphorJs.lib.Promise;
+/* BUNDLE END 0MZ */

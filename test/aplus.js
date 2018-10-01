@@ -2,12 +2,12 @@
 
 describe("Promises/A+ Tests", function() {
 
-    var Promise = require("../dist/metaphorjs.promise.npm.js");
+    var lib_Promise = require("../dist/metaphorjs.promise.npm.js");
 
     var adapter = {
         deferred: function() {
 
-            var promise = new Promise;
+            var promise = new lib_Promise;
 
             return {
                 promise: promise,

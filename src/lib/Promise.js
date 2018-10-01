@@ -1,13 +1,14 @@
 
-var isThenable = require("metaphorjs/src/func/isThenable.js"),
-    bind = require("metaphorjs/src/func/bind.js"),
-    isFunction = require("metaphorjs/src/func/isFunction.js"),
-    strUndef = require("metaphorjs/src/var/strUndef.js"),
-    error = require("metaphorjs/src/func/error.js"),
-    extend = require("metaphorjs/src/func/extend.js");
+var isThenable = require("metaphorjs-shared/src/func/isThenable.js"),
+    bind = require("metaphorjs-shared/src/func/bind.js"),
+    isFunction = require("metaphorjs-shared/src/func/isFunction.js"),
+    strUndef = require("metaphorjs-shared/src/var/strUndef.js"),
+    error = require("metaphorjs-shared/src/func/error.js"),
+    MetaphorJs = require("metaphorjs-shared/src/MetaphorJs.js"),
+    extend = require("metaphorjs-shared/src/func/extend.js");
 
 
-module.exports = function(){
+module.exports = MetaphorJs.lib.Promise = function(){
 
     var PENDING     = 0,
         FULFILLED   = 1,
@@ -15,7 +16,6 @@ module.exports = function(){
 
         queue       = [],
         qRunning    = false,
-
 
         nextTick    = typeof process !== strUndef ?
                         process.nextTick :
@@ -85,7 +85,7 @@ module.exports = function(){
 
 
     /**
-     * @class Promise
+     * @class MetaphorJs.lib.Promise
      */
 
     /**
@@ -271,12 +271,14 @@ module.exports = function(){
                         if (value instanceof Promise) {
                             value.then(
                                 bind(self._processResolveValue, self),
-                                bind(self._processRejectReason, self));
+                                bind(self._processRejectReason, self)
+                            );
                         }
                         else {
                             (new Promise(then, value)).then(
                                 bind(self._processResolveValue, self),
-                                bind(self._processRejectReason, self));
+                                bind(self._processRejectReason, self)
+                            );
                         }
                         return;
                     }
