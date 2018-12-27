@@ -13,6 +13,7 @@ module.exports = MetaphorJs.lib.Promise = function(){
     var PENDING     = 0,
         FULFILLED   = 1,
         REJECTED    = 2,
+        CANCELLED   = 3,
 
         queue       = [],
         qRunning    = false,
@@ -221,6 +222,15 @@ module.exports = MetaphorJs.lib.Promise = function(){
          */
         isRejected: function() {
             return this._state === REJECTED;
+        },
+
+        /**
+         * Is the promise was destroyed before resolving or rejecting
+         * @method
+         * @returns {boolean}
+         */
+        isCancelled: function() {
+            return this._state === CANCELLED;
         },
 
         /**
@@ -622,6 +632,11 @@ module.exports = MetaphorJs.lib.Promise = function(){
             }
 
             return self;
+        },
+
+        $destroy: function() {
+            this._cleanup();
+            this._state === PENDING && (this._state = CANCELLED);
         }
     }, true, false);
 
