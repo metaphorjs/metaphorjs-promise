@@ -1,6 +1,11 @@
 (function(){
-/* BUNDLE START 003 */
+/* BUNDLE START 004 */
 "use strict";
+
+var MetaphorJsPrebuilt = {"templates":{},"templateOptions":{},"expressionOpts":{}}
+MetaphorJsPrebuilt['funcs'] = {
+
+};
 
 /**
  * Check if given value is a function
@@ -44,8 +49,9 @@ function isThenable(any) {
 /**
  * Bind function to context (Function.bind wrapper)
  * @function bind
- * @param {Function} fn
+ * @param {function} fn
  * @param {*} context
+ * @returns {function}
  */
 function bind(fn, context){
     return fn.bind(context);
@@ -116,7 +122,12 @@ var error = (function(){
 var MetaphorJs = {
     plugin: {},
     mixin: {},
-    lib: {}
+    lib: {},
+    dom: {},
+    regexp: {},
+    browser: {},
+    app: {},
+    prebuilt: typeof MetaphorJsPrebuilt !== "undefined" ? MetaphorJsPrebuilt : null
 };
 
 
@@ -274,7 +285,15 @@ function extend() {
         override    = args.pop();
     }
 
-    while (src = args.shift()) {
+    while (args.length) {
+        
+        // src can be empty
+        src = args.shift();
+        
+        if (!src) {
+            continue;
+        }
+
         for (k in src) {
 
             if (src.hasOwnProperty(k) && (value = src[k]) !== undf) {
@@ -316,6 +335,7 @@ MetaphorJs.lib.Promise = function(){
     var PENDING     = 0,
         FULFILLED   = 1,
         REJECTED    = 2,
+        CANCELLED   = 3,
 
         queue       = [],
         qRunning    = false,
@@ -524,6 +544,15 @@ MetaphorJs.lib.Promise = function(){
          */
         isRejected: function() {
             return this._state === REJECTED;
+        },
+
+        /**
+         * Is the promise was destroyed before resolving or rejecting
+         * @method
+         * @returns {boolean}
+         */
+        isCancelled: function() {
+            return this._state === CANCELLED;
         },
 
         /**
@@ -925,6 +954,11 @@ MetaphorJs.lib.Promise = function(){
             }
 
             return self;
+        },
+
+        $destroy: function() {
+            this._cleanup();
+            this._state === PENDING && (this._state = CANCELLED);
         }
     }, true, false);
 
@@ -1251,4 +1285,4 @@ MetaphorJs.lib.Promise = function(){
 
 typeof global != "undefined" ? (global['MetaphorJs'] = MetaphorJs) : (window['MetaphorJs'] = MetaphorJs);
 
-}());/* BUNDLE END 003 */
+}());/* BUNDLE END 004 */

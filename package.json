@@ -1,11 +1,12 @@
 {
     "name": "metaphorjs-promise",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
     "repository": {
         "type": "git",
         "url": "https://github.com/metaphorjs/metaphorjs-promise.git"
     },
+    "main": "dist/metaphorjs.promise.npm.js",
     "author": "Ivan Kuindzhi",
     "license": "MIT",
     "homepage": "https://github.com/metaphorjs/metaphorjs-promise",
