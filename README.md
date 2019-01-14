@@ -4,12 +4,15 @@
 </a>
 #MetaphorJs.Promise
 Promise/A+ compliant library / ES6 Promise polyfill
+3k minified and gzipped.
 
-7k minified.
+[Docs](http://metaphorjs.com/promise/docs/index.html)
 
 ####Constructor
 * `new Promise(function(resolve, reject))`
 * `new Promise(thenable)`
+* `new Promise(resolveValue)`
+* `new Promise()`
 
 ####Instance
 * `promise.then(onFulfill, onReject)` -> new promise
@@ -29,9 +32,14 @@ Plus a few extra instance methods:
 * `promise.fail(onFail[, thisObject])` -> same promise
 * `promise.always(onFinished[, thisObject])` -> same promise
 * `promise.promise()` -> thenable
+* `promise.after(promise)`
 * `promise.isPending()`
 * `promise.isFulfilled()`
+* `promise.isResolved()`
 * `promise.isRejected()`
+* `promise.isCancelled()`
+* `promise.hasListeners()`
+* `promise.$destroy()`
 
 And some extra class methods:
 

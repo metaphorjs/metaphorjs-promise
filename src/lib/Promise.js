@@ -634,6 +634,11 @@ module.exports = MetaphorJs.lib.Promise = function(){
             return self;
         },
 
+        /**
+         * Cancel and destroy current promise. No resolve or reject 
+         * callbacks will be called. isCancelled() will return true.
+         * @method
+         */
         $destroy: function() {
             this._cleanup();
             this._state === PENDING && (this._state = CANCELLED);
