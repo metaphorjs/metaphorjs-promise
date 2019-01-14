@@ -2,25 +2,26 @@
     <img src="http://promisesaplus.com/assets/logo-small.png" alt="Promises/A+ logo"
          title="Promises/A+ 1.0 compliant" align="right" />
 </a>
-#MetaphorJs.Promise
+
+# MetaphorJs.lib.Promise
 Promise/A+ compliant library / ES6 Promise polyfill
 3k minified and gzipped.
 
 [Docs](http://metaphorjs.com/promise/docs/index.html)
 
-####Constructor
+#### Constructor
 * `new Promise(function(resolve, reject))`
 * `new Promise(thenable)`
 * `new Promise(resolveValue)`
 * `new Promise()`
 
-####Instance
+#### Instance
 * `promise.then(onFulfill, onReject)` -> new promise
 * `promise.catch(onReject)` -> new promise
 * `promise.resolve(value)`
 * `promise.reject(reason)`
 
-####Static
+#### Static
 * `Promise.all(iterable)` -> new promise
 * `Promise.race(iterable)` -> new promise
 * `Promise.resolve(value)` -> new promise
