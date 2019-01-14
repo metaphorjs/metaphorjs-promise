@@ -1,73 +1,71 @@
 {
-    "version": "1.0.7",
+    "version": "1.2.0",
     "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
 
     "test": {
         "cmd": "mocha"
     },
-    "push": [
-        "github"
-    ],
 
     "docs": {
-        "": {
-            "out": "docs",
-            "renderer": "default",
-            "src": [
-                "src/**"
-            ],
-            "includeExternal": false,
+        "out": "docs",
+        "renderer": {
+            "type": "default",
             "data": {
-                "title": "MetaphorJs.Promise",
-                "description": "@{description}",
-                "version": "v@{version}"
+                "title": "MetaphorJs.lib.Promise",
+                "description": "Bare bones Promises/A+ implementation / ES6 Promise polyfill",
+                "version": "1.2.0"
             }
-        }
+        },
+        "src": [
+            "src/**"
+        ],
+        "includeExternal": false
     },
 
     "build": {
         "standalone": {
-            "wrap": true,
-            "global": true,
             "target": "dist/metaphorjs.promise.js",
             "files": [
-                "metaphorjs/src/MetaphorJs.js",
-                [
-                    "src/lib/Promise.js",
-                    {
-                        "as": "Promise"
-                    }
-                ]
+                "src/lib/Promise.js"
             ],
-            "expose": [
-                "Promise"
-            ]
+            "options": {
+                "wrap": true,
+                "global": {
+                    "expose": "MetaphorJs"
+                }
+            }  
+        },
+        "standalone-min": {
+            "extend": "standalone",
+            "target": "dist/metaphorjs.promise.min.js",
+            "pipe": ["build", "compile", "write"]
         },
         "npm": {
+
             "target": "dist/metaphorjs.promise.npm.js",
-            "compile": false,
             "files": [
-                [
-                    "src/lib/Promise.js",
-                    {
-                        "keepExports": true
-                    }
-                ]
-            ]
+                "src/lib/Promise.js"
+            ],
+            "options": {
+                "exports": "MetaphorJs.lib.Promise"
+            }
         },
         "amd": {
             "target": "dist/metaphorjs.promise.amd.js",
             "files": [
-                [
-                    "src/lib/Promise.js",
-                    {
-                        "returnExports": true
-                    }
-                ]
+                "src/lib/Promise.js"
             ],
-            "define": {
-                "name": "metaphorjs-promise"
+            "options": {
+                "amd": {
+                    "name": "metaphorjs-promise",
+                    "return": "MetaphorJs.lib.Promise"
+                }
             }
+        },
+        "amd-min": {
+            "extend": "amd",
+            "target": "dist/metaphorjs.promise.amd.min.js",
+            "pipe": ["build", "compile", "write"]
         }
     }
 }

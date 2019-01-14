@@ -1,14 +1,14 @@
 
 
 var assert = require("assert"),
-    Promise = require("../dist/metaphorjs.promise.npm.js");
+    lib_Promise = require("../dist/metaphorjs.promise.npm.js");
 
 
 describe("Promise.always", function(){
 
     it("should trigger callbacks only once", function(){
 
-        var deferred = new Promise,
+        var deferred = new lib_Promise,
             called = 0;
 
         deferred.always(function(){

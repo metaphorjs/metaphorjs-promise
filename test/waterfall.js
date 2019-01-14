@@ -5,26 +5,26 @@ var assert = require("assert");
 describe("Promise.waterfall", function(){
 
 
-    var Promise = require("../dist/metaphorjs.promise.npm.js");
+    var lib_Promise = require("../dist/metaphorjs.promise.npm.js");
 
 
     it("must run functions in order they specified", function(done){
 
-        var fourth = new Promise;
+        var fourth = new lib_Promise;
 
-        Promise.waterfall([
+        lib_Promise.waterfall([
                 function(){
                     return 1;
                 },
                 function() {
-                    var deferred = new Promise;
+                    var deferred = new lib_Promise;
                     setTimeout(function(){
                         deferred.resolve(2);
                     }, 70);
                     return deferred;
                 },
                 function(){
-                    var deferred = new Promise;
+                    var deferred = new lib_Promise;
                     setTimeout(function(){
                         deferred.resolve(3);
                     }, 20);

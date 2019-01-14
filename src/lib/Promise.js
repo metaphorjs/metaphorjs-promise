@@ -1,21 +1,22 @@
 
-var isThenable = require("metaphorjs/src/func/isThenable.js"),
-    bind = require("metaphorjs/src/func/bind.js"),
-    isFunction = require("metaphorjs/src/func/isFunction.js"),
-    strUndef = require("metaphorjs/src/var/strUndef.js"),
-    error = require("metaphorjs/src/func/error.js"),
-    extend = require("metaphorjs/src/func/extend.js");
+var isThenable = require("metaphorjs-shared/src/func/isThenable.js"),
+    bind = require("metaphorjs-shared/src/func/bind.js"),
+    isFunction = require("metaphorjs-shared/src/func/isFunction.js"),
+    strUndef = require("metaphorjs-shared/src/var/strUndef.js"),
+    error = require("metaphorjs-shared/src/func/error.js"),
+    MetaphorJs = require("metaphorjs-shared/src/MetaphorJs.js"),
+    extend = require("metaphorjs-shared/src/func/extend.js");
 
 
-module.exports = function(){
+module.exports = MetaphorJs.lib.Promise = function(){
 
     var PENDING     = 0,
         FULFILLED   = 1,
         REJECTED    = 2,
+        CANCELLED   = 3,
 
         queue       = [],
         qRunning    = false,
-
 
         nextTick    = typeof process !== strUndef ?
                         process.nextTick :
@@ -43,6 +44,7 @@ module.exports = function(){
 
         /**
          * add to execution queue
+         * @function
          * @param {Function} fn
          * @param {Object} scope
          * @param {[]} args
@@ -65,12 +67,13 @@ module.exports = function(){
          * fn(promise1 resolve value) -> new value
          * promise2.resolve(new value)
          *
+         * @function
          * @param {Function} fn
          * @param {Promise} promise
          * @returns {Function}
          * @ignore
          */
-        wrapper     = function(fn, promise) {
+        resolveWrapper     = function(fn, promise) {
             return function(value) {
                 try {
                     promise.resolve(fn(value));
@@ -83,14 +86,14 @@ module.exports = function(){
 
 
     /**
-     * @class Promise
+     * @class MetaphorJs.lib.Promise
      */
 
-
     /**
+     * @constructor 
      * @method Promise
      * @param {Function} fn {
-     *  @description Function that accepts two parameters: resolve and reject functions.
+     *  @description Constructor accepts two parameters: resolve and reject functions.
      *  @param {function} resolve {
      *      @param {*} value
      *  }
@@ -100,28 +103,26 @@ module.exports = function(){
      * }
      * @param {Object} context
      * @returns {Promise}
-     * @constructor
      */
 
     /**
-     * @method Promise
+     * @constructor 
+     * @method Promise 
      * @param {Thenable} thenable
      * @returns {Promise}
-     * @constructor
      */
 
     /**
-     * @method Promise
+     * @constructor 
+     * @method Promise 
      * @param {*} value Value to resolve promise with
      * @returns {Promise}
-     * @constructor
      */
 
-
     /**
-     * @method Promise
+     * @constructor 
+     * @method Promise 
      * @returns {Promise}
-     * @constructor
      */
     var Promise = function(fn, context) {
 
@@ -187,22 +188,56 @@ module.exports = function(){
 
         _triggered: false,
 
+        /**
+         * Is promise still pending (as opposed to resolved or rejected)
+         * @method
+         * @returns {boolean}
+         */
         isPending: function() {
             return this._state === PENDING;
         },
 
+        /**
+         * Is the promise fulfilled. Same as isResolved()
+         * @method
+         * @returns {boolean}
+         */
         isFulfilled: function() {
             return this._state === FULFILLED;
         },
 
+        /**
+         * Is the promise resolved. Same as isFulfilled()
+         * @method
+         * @returns {boolean}
+         */
         isResolved: function() {
             return this._state === FULFILLED;
         },
 
+        /**
+         * Is the promise rejected
+         * @method
+         * @returns {boolean}
+         */
         isRejected: function() {
             return this._state === REJECTED;
         },
 
+        /**
+         * Is the promise was destroyed before resolving or rejecting
+         * @method
+         * @returns {boolean}
+         */
+        isCancelled: function() {
+            return this._state === CANCELLED;
+        },
+
+        /**
+         * Did someone subscribed to this promise
+         * @method
+         * @returns {boolean}
+         */
         hasListeners: function() {
             var self = this,
                 ls  = [self._fulfills, self._rejects, self._dones, self._fails],
@@ -226,7 +261,7 @@ module.exports = function(){
             self._fails = null;
         },
 
-        _processValue: function(value, cb) {
+        _processValue: function(value, cb, allowThenanle) {
 
             var self    = this,
                 then;
@@ -240,26 +275,30 @@ module.exports = function(){
                 return;
             }
 
-            try {
-                if (then = isThenable(value)) {
-                    if (value instanceof Promise) {
-                        value.then(
-                            bind(self._processResolveValue, self),
-                            bind(self._processRejectReason, self));
+            if (allowThenanle) {
+                try {
+                    if (then = isThenable(value)) {
+                        if (value instanceof Promise) {
+                            value.then(
+                                bind(self._processResolveValue, self),
+                                bind(self._processRejectReason, self)
+                            );
+                        }
+                        else {
+                            (new Promise(then, value)).then(
+                                bind(self._processResolveValue, self),
+                                bind(self._processRejectReason, self)
+                            );
+                        }
+                        return;
                     }
-                    else {
-                        (new Promise(then, value)).then(
-                            bind(self._processResolveValue, self),
-                            bind(self._processRejectReason, self));
+                }
+                catch (thrownError) {
+                    if (self._state === PENDING) {
+                        self._doReject(thrownError);
                     }
                     return;
                 }
-            }
-            catch (thrownError) {
-                if (self._state === PENDING) {
-                    self._doReject(thrownError);
-                }
-                return;
             }
 
             cb.call(self, value);
@@ -295,10 +334,12 @@ module.exports = function(){
         },
 
         _processResolveValue: function(value) {
-            this._processValue(value, this._doResolve);
+            this._processValue(value, this._doResolve, true);
         },
 
         /**
+         * Resolve the promise
+         * @method
          * @param {*} value
          */
         resolve: function(value) {
@@ -346,10 +387,12 @@ module.exports = function(){
 
 
         _processRejectReason: function(reason) {
-            this._processValue(reason, this._doReject);
+            this._processValue(reason, this._doReject, false);
         },
 
         /**
+         * Reject the promise
+         * @method
          * @param {*} reason
          */
         reject: function(reason) {
@@ -368,8 +411,12 @@ module.exports = function(){
         },
 
         /**
-         * @param {Function} resolve -- called when this promise is resolved; returns new resolve value
-         * @param {Function} reject -- called when this promise is rejects; returns new reject reason
+         * @method
+         * @async
+         * @param {Function} resolve -- called when this promise is resolved; 
+         *  returns new resolve value or promise
+         * @param {Function} reject -- called when this promise is rejected; 
+         *  returns new reject reason
          * @param {object} context -- resolve's and reject's functions "this" object
          * @returns {Promise} new promise
          */
@@ -391,14 +438,14 @@ module.exports = function(){
             if (state === PENDING || self._wait !== 0) {
 
                 if (resolve && isFunction(resolve)) {
-                    self._fulfills.push([wrapper(resolve, promise), null]);
+                    self._fulfills.push([resolveWrapper(resolve, promise), null]);
                 }
                 else {
                     self._fulfills.push([promise.resolve, promise])
                 }
 
                 if (reject && isFunction(reject)) {
-                    self._rejects.push([wrapper(reject, promise), null]);
+                    self._rejects.push([resolveWrapper(reject, promise), null]);
                 }
                 else {
                     self._rejects.push([promise.reject, promise]);
@@ -407,7 +454,7 @@ module.exports = function(){
             else if (state === FULFILLED) {
 
                 if (resolve && isFunction(resolve)) {
-                    next(wrapper(resolve, promise), null, [self._value]);
+                    next(resolveWrapper(resolve, promise), null, [self._value]);
                 }
                 else {
                     promise.resolve(self._value);
@@ -415,7 +462,7 @@ module.exports = function(){
             }
             else if (state === REJECTED) {
                 if (reject && isFunction(reject)) {
-                    next(wrapper(reject, promise), null, [self._reason]);
+                    next(resolveWrapper(reject, promise), null, [self._reason]);
                 }
                 else {
                     promise.reject(self._reason);
@@ -426,6 +473,9 @@ module.exports = function(){
         },
 
         /**
+         * Add reject listener.
+         * @method
+         * @async
          * @param {Function} reject -- same as then(null, reject)
          * @returns {Promise} new promise
          */
@@ -450,6 +500,9 @@ module.exports = function(){
         },
 
         /**
+         * Add resolve listener
+         * @method
+         * @sync
          * @param {Function} fn -- function to call when promise is resolved
          * @param {Object} context -- function's "this" object
          * @returns {Promise} same promise
@@ -490,6 +543,9 @@ module.exports = function(){
         },
 
         /**
+         * Add reject listener
+         * @method
+         * @sync
          * @param {Function} fn -- function to call when promise is rejected.
          * @param {Object} context -- function's "this" object
          * @returns {Promise} same promise
@@ -515,6 +571,9 @@ module.exports = function(){
         },
 
         /**
+         * Add both resolve and reject listener
+         * @method
+         * @sync
          * @param {Function} fn -- function to call when promise resolved or rejected
          * @param {Object} context -- function's "this" object
          * @return {Promise} same promise
@@ -526,6 +585,8 @@ module.exports = function(){
         },
 
         /**
+         * Get a thenable object
+         * @method
          * @returns {object} then: function, done: function, fail: function, always: function
          */
         promise: function() {
@@ -534,10 +595,17 @@ module.exports = function(){
                 then: bind(self.then, self),
                 done: bind(self.done, self),
                 fail: bind(self.fail, self),
-                always: bind(self.always, self)
+                always: bind(self.always, self),
+                "catch": bind(self['catch'], self)
             };
         },
 
+        /**
+         * Resolve this promise after <code>value</code> promise is resolved.
+         * @method
+         * @param {*|Promise} value
+         * @returns {Promise} self
+         */
         after: function(value) {
 
             var self = this;
@@ -564,25 +632,36 @@ module.exports = function(){
             }
 
             return self;
+        },
+
+        $destroy: function() {
+            this._cleanup();
+            this._state === PENDING && (this._state = CANCELLED);
         }
     }, true, false);
 
 
     /**
+     * Call function <code>fn</code> with given args in given context
+     * and use its return value as resolve value for a new promise.
+     * Then return this promise.
+     * @static
+     * @method
      * @param {function} fn
      * @param {object} context
      * @param {[]} args
      * @returns {Promise}
-     * @static
      */
     Promise.fcall = function(fn, context, args) {
         return Promise.resolve(fn.apply(context, args || []));
     };
 
     /**
+     * Create new promise and resolve it with given value
+     * @static
+     * @method
      * @param {*} value
      * @returns {Promise}
-     * @static
      */
     Promise.resolve = function(value) {
         var p = new Promise;
@@ -592,9 +671,11 @@ module.exports = function(){
 
 
     /**
+     * Create new promise and reject it with given reason
+     * @static
+     * @method
      * @param {*} reason
      * @returns {Promise}
-     * @static
      */
     Promise.reject = function(reason) {
         var p = new Promise;
@@ -604,9 +685,13 @@ module.exports = function(){
 
 
     /**
+     * Take a list of promises or values and once all promises are resolved,
+     * create a new promise and resolve it with a list of final values.<br>
+     * If one of the promises is rejected, it will reject the returned promise.
+     * @static
+     * @method
      * @param {[]} promises -- array of promises or resolve values
      * @returns {Promise}
-     * @static
      */
     Promise.all = function(promises) {
 
@@ -657,20 +742,25 @@ module.exports = function(){
     };
 
     /**
+     * Same as <code>all()</code> but it treats arguments as list of values.
+     * @static
+     * @method
      * @param {Promise|*} promise1
      * @param {Promise|*} promise2
      * @param {Promise|*} promiseN
      * @returns {Promise}
-     * @static
      */
     Promise.when = function() {
         return Promise.all(arguments);
     };
 
     /**
+     * Same as <code>all()</code> but the resulting promise
+     * will not be rejected if ones of the passed promises is rejected.
+     * @static
+     * @method
      * @param {[]} promises -- array of promises or resolve values
      * @returns {Promise}
-     * @static
      */
     Promise.allResolved = function(promises) {
 
@@ -713,9 +803,12 @@ module.exports = function(){
     };
 
     /**
+     * Given the list of promises or values it will return a new promise
+     * and resolve it with the first resolved value.
+     * @static
+     * @method
      * @param {[]} promises -- array of promises or resolve values
      * @returns {Promise}
-     * @static
      */
     Promise.race = function(promises) {
 
@@ -750,9 +843,12 @@ module.exports = function(){
     };
 
     /**
+     * Takes a list of async functions and executes 
+     * them in given order consequentially
+     * @static
+     * @method
      * @param {[]} functions -- array of promises or resolve values or functions
      * @returns {Promise}
-     * @static
      */
     Promise.waterfall = function(functions) {
 
@@ -783,6 +879,21 @@ module.exports = function(){
         return promise;
     };
 
+    /**
+     * Works like Array.forEach but it expects passed function to 
+     * return a Promise.
+     * @static
+     * @method 
+     * @param {array} items 
+     * @param {function} fn {
+     *  @param {*} value
+     *  @param {int} index
+     *  @returns {Promise|*}
+     * }
+     * @param {object} context 
+     * @param {boolean} allResolved if true, the resulting promise
+     * will fail if one of the returned promises fails.
+     */
     Promise.forEach = function(items, fn, context, allResolved) {
 
         var left = items.slice(),
@@ -823,6 +934,15 @@ module.exports = function(){
         return p;
     };
 
+    /**
+     * Returns a promise with additional <code>countdown</code>
+     * method. Call this method <code>cnt</code> times and
+     * the promise will get resolved.
+     * @static
+     * @method
+     * @param {int} cnt 
+     * @returns {Promise}
+     */
     Promise.counter = function(cnt) {
 
         var promise     = new Promise;

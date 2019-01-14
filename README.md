@@ -2,10 +2,10 @@
     <img src="http://promisesaplus.com/assets/logo-small.png" alt="Promises/A+ logo"
          title="Promises/A+ 1.0 compliant" align="right" />
 </a>
-#MetaphorJs.lib.Promise
+#MetaphorJs.Promise
 Promise/A+ compliant library / ES6 Promise polyfill
 
-4k minified.
+7k minified.
 
 ####Constructor
 * `new Promise(function(resolve, reject))`
@@ -27,7 +27,17 @@ Plus a few extra instance methods:
 
 * `promise.done(onDone[, thisObject])` -> same promise
 * `promise.fail(onFail[, thisObject])` -> same promise
+* `promise.always(onFinished[, thisObject])` -> same promise
 * `promise.promise()` -> thenable
 * `promise.isPending()`
 * `promise.isFulfilled()`
 * `promise.isRejected()`
+
+And some extra class methods:
+
+* `Promise.fcall(fn, context, args)` -> new promise
+* `Promise.allResolved(promises)` -> new promise
+* `Promise.when(promise1, promise2, ...)` -> new promise
+* `Promise.waterfall(functions)` -> new promise
+* `Promise.forEach(items, fn, context)` -> new promise
+* `Promise.counter(cnt)` -> new promise
