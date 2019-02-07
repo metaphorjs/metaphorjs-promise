@@ -601,7 +601,17 @@ module.exports = MetaphorJs.lib.Promise = function(){
         },
 
         /**
-         * Resolve this promise after <code>value</code> promise is resolved.
+         * Call resolve/reject handlers only after <code>value</code> 
+         * promise is resolved. <br>
+         * <code>
+         * var p = new MetaphorJs.lib.Promise;
+         * var p2 = new MetaphorJs.lib.Promise;
+         * p.done(function(){console.log('ok')})
+         * p.after(p2); // add as many promises as needed
+         * p.resolve(); // nothing
+         * p2.resolve(); // 'ok' !
+         * </code>
+         * Keep in mind, that current promise will not be auto resolved. 
          * @method
          * @param {*|Promise} value
          * @returns {Promise} self
