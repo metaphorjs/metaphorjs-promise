@@ -519,7 +519,7 @@ module.exports = MetaphorJs.lib.Promise = function(){
                     error(thrown);
                 }
             }
-            else if (state === PENDING) {
+            else if (state === PENDING || self._wait > 0) {
                 self._dones.push([fn, context]);
             }
 
@@ -563,7 +563,7 @@ module.exports = MetaphorJs.lib.Promise = function(){
                     error(thrown);
                 }
             }
-            else if (state === PENDING) {
+            else if (state === PENDING || self._wait > 0) {
                 self._fails.push([fn, context]);
             }
 
@@ -626,7 +626,8 @@ module.exports = MetaphorJs.lib.Promise = function(){
 
                 var done = function() {
                     self._wait--;
-                    if (self._wait === 0 && self._state !== PENDING) {
+                    if (self._wait === 0 && self._state !== PENDING && 
+                                            self._state !== CANCELLED) {
                         self._state === FULFILLED ?
                             self._callResolveHandlers() :
                             self._callRejectHandlers();
