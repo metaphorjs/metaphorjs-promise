@@ -1,8 +1,7 @@
 
-var isThenable = require("metaphorjs-shared/src/func/isThenable.js"),
+const isThenable = require("metaphorjs-shared/src/func/isThenable.js"),
     bind = require("metaphorjs-shared/src/func/bind.js"),
     isFunction = require("metaphorjs-shared/src/func/isFunction.js"),
-    strUndef = require("metaphorjs-shared/src/var/strUndef.js"),
     error = require("metaphorjs-shared/src/func/error.js"),
     MetaphorJs = require("metaphorjs-shared/src/MetaphorJs.js"),
     extend = require("metaphorjs-shared/src/func/extend.js");
@@ -18,7 +17,7 @@ module.exports = MetaphorJs.lib.Promise = function(){
         queue       = [],
         qRunning    = false,
 
-        nextTick    = typeof process !== strUndef ?
+        nextTick    = typeof process !== "undefined" ?
                         process.nextTick :
                         function(fn) {
                             setTimeout(fn, 0);

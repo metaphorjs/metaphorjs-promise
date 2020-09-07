@@ -1,6 +1,6 @@
 require("../lib/Promise.js");
 
-var MetaphorJs = require("metaphorjs-shared/src/MetaphorJs.js");
+const MetaphorJs = require("metaphorjs-shared/src/MetaphorJs.js");
 
 /**
  * @mixin MetaphorJs.mixin.Promise
