@@ -584,6 +584,20 @@ module.exports = MetaphorJs.lib.Promise = function(){
         },
 
         /**
+         * Add both resolve and reject listener
+         * @method
+         * @sync
+         * @param {Function} fn -- function to call when promise resolved or rejected
+         * @param {Object} context -- function's "this" object
+         * @return {Promise} same promise
+         */
+        finally: function(fn, context) {
+            this.done(fn, context);
+            this.fail(fn, context);
+            return this;
+        },
+
+        /**
          * Get a thenable object
          * @method
          * @returns {object} then: function, done: function, fail: function, always: function
